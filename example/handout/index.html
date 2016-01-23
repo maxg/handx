@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Example Handout</title>
+
+<link href="../../web/handout/handout-style.css" rel="stylesheet"></link>
+</head>
+<body>
+<header>6.HANDX &mdash; Handouts + Exercises</header>
+<!-- optional: nav.table-of-contents becomes a table of contents -->
+<nav class="table-of-contents"></nav>
+<main>
+
+<div class="markdown">
+
+The page title is automatically added as a page heading.
+
+## Section
+
+Use `##` for sections.
+
+### Subsection
+
+Use `###` for subsections.
+Use `####` if necessary.
+
+**Bold**, *italic*, and `code` inline styles.
+
++ Bulleted lists
++ with `+`
++ or `-`
++ or `*`
+
+```java
+public static void main(String[] args) {
+  System.out.println("Syntax-highlighted code");
+}
+```
+
+You must escape `&lt;` characters.
+Sorry.
+
+<pre>
+Fixed-width block with **inline** *styles*.
+</pre>
+
+<div class="exercises">
+
+# Exercise 1
+
+Exercises are in a `&lt;div class="exercises">`.
+
+Use `#` for exercise titles.
+
+Highlight questions using `##`:
+
+## What is the airspeed velocity of an unladen swallow?
+
+[x] Checkboxes
+[x] *with* **styles**
+[ ] `and code`
+
+( ) Radio buttons
+(x) *with* **styles**
+( ) `and code`
+
+Use Markdown blockquote (`>`) for explanations.
+
+> The answer is: 42.
+
+---
+
+# Exercise 2
+
+Separate multiple exercises with a Markdown horizontal rule (`---`).
+
+[x] OK
+
+Dropdowns and text fields have normal and `code` versions:
+
+[[ Drop, (down) ]]
+
+[[` code, (correct()), incorrect), (incorrect, incorrect() `]]
+
+= text field
+
+= `code text field`
+
+> Explanation with `inline_code` and a code block:
+>
+> ```java
+> public void blockOfCode() { }
+> ```
+
+---
+
+# Exercise 3
+
+Text fields can also be checked against a regular expression:
+
+= /regular expression|regexp?/ regex
+
+= `/a +b +c/ a b c`
+
+</div>
+
+## Another section
+
+And so on, and so on.
+
+</div>
+
+</main>
+<!-- optional: footer containing &copy; becomes a copyright message -->
+<footer>&copy;</footer>
+<footer>MIT EECS</footer>
+<script src="../../web/handout/handout-render.js"></script>
+</body>
+</html>

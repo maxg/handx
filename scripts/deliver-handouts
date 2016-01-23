@@ -1,0 +1,82 @@
+#!/bin/bash
+
+#
+# Handout Delivery
+#
+
+webmaster= # TODO webmaster@example.com
+phantomjs="${PHANTOMJS:-/default/path/to/phantomjs-2.0}" # TODO
+deliver=web/handout/deliver/deliver.phantom.js
+home=home # special home page handout
+
+set -e
+set -u
+
+path="${1:?Must specify path}"
+src="${2:?Must specify source location}"
+www="${3:?Must specify www location}"
+handx="${4:?Must specify handx location}"
+
+abssrc="$(cd "$src" && pwd)"
+
+from="$src/$path/handout"
+deploy="$www/$path"
+if [ "$path" == "$home" ]; then
+  # deploy home page to root
+  deploy="$www"
+fi
+
+if [ ! -d "$from" ]; then
+  echo -e "[no handouts] $path in $src"
+  exit
+fi
+
+if [ ! -d "$deploy" ]; then
+  echo -e "\033[1;31m[deploy skipped]\033[0m $path directory does not exist in $www"
+  exit
+fi
+
+echo "[deploy] $path"
+
+[ -n "$webmaster" ] && sendmail "$webmaster" <<EOM
+Subject: [handx] updating $path
+
+$path updated by $USER
+$from -> $deploy
+EOM
+
+(cd "$from" && find . -mindepth 1 -type d) | # find directories
+sed 's/^.\///' |                             # relative dir names
+(cd "$deploy" && xargs -I DIR mkdir -p DIR)  # create in www
+
+(cd "$from" && find . -type f) | # find files
+sed 's/^.\///' |                 # relative file names
+while read -r file; do           # for each file...
+  # handouts are HTML files that reference the handout script
+  if [[ "$file" == *.html ]] && fgrep -q handout-render.js "$from/$file"; then
+    # pre-render the handout
+    echo "  render $file"
+    IFS=/ read -r kind handout part <<< "$path/${file%.html}"
+    part="${part%index}"; part="${part%/}"
+    [ -f "$deploy/$file" ] && rm "$deploy/$file"
+    "$phantomjs" "$src/$deliver" "$from/$file" "$deploy/$file" "$handx" "$kind" "$handout" "$part"
+  else
+    # just copy the file
+    echo "  copy   $file"
+    cp "$from/$file" "$deploy/$file"
+  fi
+  case "$file" in
+    *.html|*.svg)
+      # fix paths to site CSS & JavaScript
+      # ="../../../web/handout/handout-file"  ->  ="../../web/handout-file"
+      perl -pi -e 's#(="[^"]*)/\.\./([^"]*)/handout/([^"]*")#\1/\2/\3#g' "$deploy/$file"
+      if [ "$path" == "$home" ]; then
+        # fix relative paths from home page
+        # ="../web/something"  ->  ="web/something"
+        perl -pi -e 's#(=")\.\./([^"]*")#\1\2#g' "$deploy/$file"
+      fi
+      ;;
+  esac
+done
+
+echo -e "\033[1;32m[deployed]\033[0m $path"

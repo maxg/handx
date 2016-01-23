@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#
+# Athena Handout Delivery Wrapper
+#
+
+# TODO www=/mit/6.HANDX/www
+# TODO handx=/mit/6.HANDX/web_scripts/handx
+
+set -e
+set -u
+
+path="${1:?Must specify path}"
+
+scripts="$(dirname "$0")"         # scripts directory
+scripts="$(cd "$scripts" && pwd)" # full path
+
+src="$(dirname "$scripts")"       # semester directory
+
+semester="${src##*/}"             # long semester name
+shortsem="${semester/#fall/fa}"   # short semester name
+shortsem="${shortsem/#spring/sp}"
+
+from="$src/$path/handout"
+deploy="$www/$shortsem/$path"
+
+if [ ! -d "$from" ]; then
+  echo -e "[no handouts] $path"
+  exit
+fi
+
+if [ ! -d "$deploy" ]; then
+  echo -e "\033[1;31m[deploy skipped]\033[0m $path directory does not exist in www. Create it:"
+  echo "$ mkdir $deploy"
+  echo 'Then push again or:'
+  echo "$ $scripts/${0##*/} $path"
+  exit
+fi
+
+"$scripts/deliver-handouts" "$path" "$src" "$www/$shortsem" "$handx/$shortsem/data"
