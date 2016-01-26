@@ -192,6 +192,21 @@ tt {
 /* borderless figure tables */
 .table.table-figure td { border: none; }
 
+/* tables for two-column text */
+table.side-by-side td {
+  vertical-align: top;
+}
+table.side-by-side pre {
+  padding: 4px;
+}
+table.side-by-side td:first-child {
+  border-right: 1px solid #333;
+  padding-right: 1em;
+}
+table.side-by-side td:last-child {
+  padding-left: 1em;
+}
+
 /* exercises */
 iframe.exercises-status {
   width: 100%;
