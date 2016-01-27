@@ -10,7 +10,7 @@
  */
 
 // configuration
-HANDOUT_PREVIEW = document.location.protocol == 'file:';
+HANDOUT_PREVIEW = (document.location.protocol === 'file:') && ( ! window.callPhantom);
 
 if (typeof HANDOUT_EXERCISES === "undefined") { HANDOUT_EXERCISES = false; }
 
