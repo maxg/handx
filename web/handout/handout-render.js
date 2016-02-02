@@ -12,7 +12,7 @@
 // configuration
 HANDOUT_PREVIEW = (document.location.protocol === 'file:') && ( ! window.callPhantom);
 
-if (typeof HANDOUT_EXERCISES === "undefined") { HANDOUT_EXERCISES = false; }
+if (typeof HANDOUT_HANDX === "undefined") { HANDOUT_HANDX = false; }
 
 // load JavaScript by injecting a <script> tag
 function require(url, callback) {
@@ -92,6 +92,11 @@ function render() {
     $(this).addClass('converted');
   });
   
+  // identify exercises
+  $(HANDOUT_EXERCISES.map(function(category) {
+    return '.' + category;
+  }).join(',')).addClass('exercises');
+  
   // assign IDs to all headers
   [ 'h1', 'h2', 'h3' ].forEach(function(h) { // higher-level headers get cleaner IDs
     $(h).each(function() {
@@ -102,13 +107,15 @@ function render() {
   });
   
   // convert exercise blocks
-  $('.exercises:not(.converted)').each(function() {
-    convertExercises(this);
-    $(this).addClass('converted');
+  HANDOUT_EXERCISES.forEach(function(category) {
+    $('.' + category + '.exercises:not(.converted)').each(function() {
+      convertExercises(this, category);
+      $(this).addClass('converted');
+    });
   });
   $('.exercises').first().each(function() {
-    if (HANDOUT_EXERCISES) {
-      $('main').prepend($('<iframe class="exercises-status">').attr('src', HANDOUT_EXERCISES + 'status.php'));
+    if (HANDOUT_HANDX) {
+      $('main').prepend($('<iframe class="exercises-status">').attr('src', HANDOUT_HANDX + 'status.php'));
     }
   });
   
@@ -263,13 +270,14 @@ function convertMarkdownTextFields(text) {
   });
 }
 
-function convertExercises(node) {
+function convertExercises(node, category) {
+  var categoryName = category.replace(/-/g, ' ');
   var container = $(node).attr('id', uniqueIdentifier('id', 'ex'))
-                         .addClass('panel-group')
-                         .prepend('<h4 class="text-danger">Reading exercises</h4>');
+                         .addClass('exercises panel-group')
+                         .prepend('<h4 class="text-danger">' + categoryName + '</h4>');
   
   $('h1', container).each(function() {
-    convertExercise(container, $(this).text(), $(this).nextUntil('hr'));
+    convertExercise(container, category, $(this).text(), $(this).nextUntil('hr'));
   });
   
   // remove original exercise titles and dividers
@@ -284,13 +292,14 @@ function convertExercises(node) {
   });
 }
 
-function convertExercise(container, title, content) {
+function convertExercise(container, category, title, content) {
   var exerciseName = uniqueIdentifier('data-outline', title, container);
   var exerciseId = container.attr('id') + '-' + exerciseName;
   var panel = $('<div class="panel panel-danger">')
               .append($('<div class="panel-collapse collapse exercise-panel">')
                       .attr('id', exerciseId)
                       .attr('data-outline', exerciseName)
+                      .attr('data-ex-category', category)
                       .append('<div class="panel-body">'));
   var body = content.wrapAll(panel).parent();
   

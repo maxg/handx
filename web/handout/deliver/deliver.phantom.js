@@ -97,7 +97,7 @@ page.onCallback = function(hasExercises) {
     
     // remove solutions from the page
     page.evaluate(function(handoutID) {
-      $('.exercise-panel').attr('data-ex-remote', HANDOUT_EXERCISES + 'submit.php')
+      $('.exercise-panel').attr('data-ex-remote', HANDOUT_HANDX + 'submit.php')
                           .attr('data-ex-handout', handoutID);
       $('.exercise-choice').removeAttr('data-ex-expected');
       $('.exercise-choice').removeAttr('data-ex-regex');

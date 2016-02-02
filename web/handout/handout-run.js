@@ -64,6 +64,7 @@ function createExercise() {
     var exercise = {
       id: $(this).parents().map(function() { return $(this).data('outline'); })[0] +
           '/' + $(this).data('outline'),
+      category: $(this).data('ex-category'),
       node: $(this),
       parts: $('.exercise-part', this).map(function() {
         return {
