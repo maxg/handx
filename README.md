@@ -9,6 +9,12 @@ An example handout!
 
 Clone this repository and open `example/handout/index.html`.
 
+## [`example/slides`](example/slides)
+
+Example slides!
+
+Clone this repository and open `example/slides/index.html`.
+
 ## [`web/handout`](web/handout)
 
 JavaScript and CSS for rendering and running handouts.

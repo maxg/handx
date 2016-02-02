@@ -1,0 +1,257 @@
+/*
+ * Slide Style
+ */
+
+@import url(course-style.css);
+
+body {
+  font-family: sans-serif;
+}
+
+#source {
+  display: none;
+}
+
+code {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  background-color: rgba(0,0,0,.04);
+  padding: 1px 6px;
+  border-radius: 6px;
+}
+pre {
+  background-color: rgba(0,0,0,.04);
+  padding: 6px;
+  border-radius: 6px;
+}
+pre code {
+  padding: 0;
+  border-radius: 0;
+}
+
+a {
+  color: #428bca;
+  text-decoration: none;
+}
+
+/* reduce margins... */
+.remark-slide-content {
+  padding: 20px 40px;
+}
+.remark-slide-content :first-child {
+  margin-top: 0;
+}
+
+/* ... and increase font size */
+.remark-slide-content {
+  font-size: 28px;
+}
+.remark-slide-content.huge {
+  font-size: 32px;
+}
+.remark-slide-content.small {
+  font-size: 22px;
+}
+.remark-slide-content .smaller { /* progressively smaller */
+  font-size: 85%;
+}
+.remark-slide-content code {
+  font-size: 90%;
+}
+.remark-slide-content.smallcode code {
+  font-size: 80%;
+}
+.remark-slide-content h1,
+.remark-slide-content h2,
+.remark-slide-content h3,
+.remark-slide-content p,
+.remark-slide-content pre,
+.remark-slide-content ol {
+  margin: 20px 0;
+}
+.remark-slide-content.squeeze h1,
+.remark-slide-content.squeeze h2,
+.remark-slide-content.squeeze h3,
+.remark-slide-content.squeeze p,
+.remark-slide-content.squeeze pre,
+.remark-slide-content.squeeze ol {
+  margin: 10px 0;
+}
+
+strike {
+  position: relative;
+}
+strike::after {
+  content: '';
+  border-bottom: .15em solid rgba(0,0,0,.8);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+}
+
+/* show blackout mode in presenter view
+   note that clones created while in blackout mode do NOT start in blackout mode */
+body.remark-container.remark-blackout-mode {
+  background: black;
+}
+
+/* don't show slide numbers */
+body.remark-container:not(.remark-presenter-mode) .remark-slide-number {
+  display: none;
+}
+
+/* chapter titles */
+.remark-slide-content.chapter h1 {
+  margin: -20px -40px 0 -40px;
+  padding: 200px 0 20px 40px;
+  background: #333;
+  color: #fff;
+}
+.remark-slide-content.chapter h2 {
+  margin: 20px 0 40px 0;
+}
+.remark-slide-content.chapter p {
+  font-size: 75%;
+}
+
+.up._2 { -webkit-column-count: 2; }
+.up._3 { -webkit-column-count: 3; }
+.up._4 { -webkit-column-count: 4; }
+.up._5 { -webkit-column-count: 5; }
+.up._6 { -webkit-column-count: 6; }
+.up {
+  margin-bottom: 20px;
+}
+.up > :last-child {
+  margin-bottom: 0;
+}
+
+/* slides with A. B. C. lists */
+.remark-slide-content.abc > ol,
+.remark-slide-content.abc > div > ol {
+  list-style-type: upper-alpha;
+}
+.remark-slide-content.sub_abc > ol > li > ol,
+.remark-slide-content.sub_abc > div > ol > li > ol {
+  list-style-type: upper-alpha;
+}
+
+/* reveal content */
+.remark-slide-content .reveal-hidden {
+  display: none;
+  visibility: hidden;
+}
+.remark-slide-content.reveal:not(.build):not(.inout) .reveal-hidden,
+.remark-slide-content.reveal.build._1 .reveal-hidden._1,
+.remark-slide-content.reveal.build._2 .reveal-hidden._2,
+.remark-slide-content.reveal.build._3 .reveal-hidden._3,
+.remark-slide-content.reveal.build._4 .reveal-hidden._4,
+.remark-slide-content.reveal.build._5 .reveal-hidden._5,
+.remark-slide-content.reveal.build._6 .reveal-hidden._6,
+.remark-slide-content.reveal.build._7 .reveal-hidden._7,
+.remark-slide-content.reveal.build._8 .reveal-hidden._8,
+.remark-slide-content.reveal.build._9 .reveal-hidden._9,
+.remark-slide-content.reveal.build._10 .reveal-hidden._10,
+.remark-slide-content.reveal.inout._1:not(._2) .reveal-hidden._1,
+.remark-slide-content.reveal.inout._2:not(._3) .reveal-hidden._2,
+.remark-slide-content.reveal.inout._3:not(._4) .reveal-hidden._3,
+.remark-slide-content.reveal.inout._4:not(._5) .reveal-hidden._4,
+.remark-slide-content.reveal.inout._5:not(._6) .reveal-hidden._5,
+.remark-slide-content.reveal.inout._6:not(._7) .reveal-hidden._6,
+.remark-slide-content.reveal.inout._7:not(._8) .reveal-hidden._7,
+.remark-slide-content.reveal.inout._8:not(._9) .reveal-hidden._8,
+.remark-slide-content.reveal.inout._9:not(._10) .reveal-hidden._9,
+.remark-slide-content.reveal.inout._10 .reveal-hidden._10
+ {
+  display: initial;
+  visibility: initial;
+}
+
+/* reveal circled text */
+.remark-slide-content.reveal:not(.build):not(.inout) .reveal-circle,
+.remark-slide-content.reveal.build._1 .reveal-circle._1,
+.remark-slide-content.reveal.build._2 .reveal-circle._2,
+.remark-slide-content.reveal.build._3 .reveal-circle._3,
+.remark-slide-content.reveal.build._4 .reveal-circle._4,
+.remark-slide-content.reveal.build._5 .reveal-circle._5,
+.remark-slide-content.reveal.build._6 .reveal-circle._6,
+.remark-slide-content.reveal.build._7 .reveal-circle._7,
+.remark-slide-content.reveal.build._8 .reveal-circle._8,
+.remark-slide-content.reveal.build._9 .reveal-circle._9,
+.remark-slide-content.reveal.build._10 .reveal-circle._10,
+.remark-slide-content.reveal.inout._1:not(._2) .reveal-circle._1,
+.remark-slide-content.reveal.inout._2:not(._3) .reveal-circle._2,
+.remark-slide-content.reveal.inout._3:not(._4) .reveal-circle._3,
+.remark-slide-content.reveal.inout._4:not(._5) .reveal-circle._4,
+.remark-slide-content.reveal.inout._5:not(._6) .reveal-circle._5,
+.remark-slide-content.reveal.inout._6:not(._7) .reveal-circle._6,
+.remark-slide-content.reveal.inout._7:not(._8) .reveal-circle._7,
+.remark-slide-content.reveal.inout._8:not(._9) .reveal-circle._8,
+.remark-slide-content.reveal.inout._9:not(._10) .reveal-circle._9,
+.remark-slide-content.reveal.inout._10 .reveal-circle._10
+ {
+  border: 5px solid rgba(250, 172, 63, 0.8);
+  border-radius: 10px;
+  display: inline-block;
+  position: relative;
+  margin-top: -5px;
+  margin-bottom: -5px;
+  left: -5px;
+  margin-right: -10px;
+}
+
+/* reveal circled list items */
+.remark-slide-content.reveal:not(.build):not(.inout) li .reveal-circle,
+.remark-slide-content.reveal.build._1 li .reveal-circle._1,
+.remark-slide-content.reveal.build._2 li .reveal-circle._2,
+.remark-slide-content.reveal.build._3 li .reveal-circle._3,
+.remark-slide-content.reveal.build._4 li .reveal-circle._4,
+.remark-slide-content.reveal.build._5 li .reveal-circle._5,
+.remark-slide-content.reveal.build._6 li .reveal-circle._6,
+.remark-slide-content.reveal.build._7 li .reveal-circle._7,
+.remark-slide-content.reveal.build._8 li .reveal-circle._8,
+.remark-slide-content.reveal.build._9 li .reveal-circle._9,
+.remark-slide-content.reveal.build._10 li .reveal-circle._10,
+.remark-slide-content.reveal.inout._1:not(._2) li .reveal-circle._1,
+.remark-slide-content.reveal.inout._2:not(._3) li .reveal-circle._2,
+.remark-slide-content.reveal.inout._3:not(._4) li .reveal-circle._3,
+.remark-slide-content.reveal.inout._4:not(._5) li .reveal-circle._4,
+.remark-slide-content.reveal.inout._5:not(._6) li .reveal-circle._5,
+.remark-slide-content.reveal.inout._6:not(._7) li .reveal-circle._6,
+.remark-slide-content.reveal.inout._7:not(._8) li .reveal-circle._7,
+.remark-slide-content.reveal.inout._8:not(._9) li .reveal-circle._8,
+.remark-slide-content.reveal.inout._9:not(._10) li .reveal-circle._9,
+.remark-slide-content.reveal.inout._10 li .reveal-circle._10
+ {
+  padding-left: 50px;
+  padding-right: 15px;
+  padding-bottom: 1px;
+  margin-top: -5px;
+  margin-bottom: -6px;
+  left: -55px;
+}
+
+/* on-slide countdown timers */
+.remark-slide-timer {
+  border: 2px solid black;
+  border-radius: 10px;
+  background: black;
+  color: white;
+  display: inline-block;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 10px;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 35px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.remark-slide-timer.remark-slide-timer-expired {
+  background: rgb(238, 95, 91);
+  border-color: rgb(238, 95, 91);
+}
+
+@media print {
+  .remark-slide-scaler { overflow: visible; }
+}
