@@ -114,6 +114,15 @@ body.remark-container:not(.remark-presenter-mode) .remark-slide-number {
   font-size: 75%;
 }
 
+.float-left {
+  display: block;
+  float: left;
+}
+.float-right {
+  display: block;
+  float: right;
+}
+
 .up._2 { -webkit-column-count: 2; }
 .up._3 { -webkit-column-count: 3; }
 .up._4 { -webkit-column-count: 4; }
