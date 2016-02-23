@@ -5,19 +5,30 @@
  */
 
 // create a hover interaction
-//   will update an attribute of a target element inside this element as the
-//   user hovers over elements matching a selector
+//   will either update an attribute of a target element inside this element,
+//   or show only targets matching an indexed selector, as the user hovers over
+//   elements matching a selector
 function createHoverInteraction() {
   var elt = $(this);
   var selector = elt.data('selector');
   var target = $(elt.data('target'), elt);
-  var attr = elt.data('attr');
-  var template = elt.data('template');
-  function update() {
-    $(this).siblings().removeClass('highlighted');
-    $(this).addClass('highlighted');
-    var value = template.replace(/\{index\}/g, $(this).index());
-    target.attr(attr, value);
+  var pick = elt.data('pick');
+  if (pick) {
+    var updateTarget = function() {
+      var filter = pick.replace(/\{index\}/g, $(this).index()+1);
+      target.hide().filter(filter).show();
+    }
+  } else {
+    var attr = elt.data('attr');
+    var template = elt.data('template');
+    var updateTarget = function() {
+      var value = template.replace(/\{index\}/g, $(this).index());
+      target.attr(attr, value);
+    }
+  }
+  var update = function() {
+    $(this).addClass('highlighted').siblings().removeClass('highlighted');
+    updateTarget.apply(this);
   }
   $(selector).on('click mouseenter', update);
   update.apply($(selector).first());
