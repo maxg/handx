@@ -310,9 +310,11 @@ iframe.exercises-status {
   opacity: 0.33;
 }
 
-/* special case a pair of true/false radio buttons */
+/* special case common pairs of radio buttons */
 .radio.exercise-choice:nth-child(1):nth-last-child(2)[data-outline=True],
-.radio.exercise-choice:nth-child(2):nth-last-child(1)[data-outline=False] {
+.radio.exercise-choice:nth-child(2):nth-last-child(1)[data-outline=False],
+.radio.exercise-choice:nth-child(1):nth-last-child(2)[data-outline=Yes],
+.radio.exercise-choice:nth-child(2):nth-last-child(1)[data-outline=No] {
   display: inline-block;
   margin: 0 20px 0 0;
 }
