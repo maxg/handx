@@ -3,19 +3,19 @@ handx
 
 **Markdown handouts + exercises**
 
-## [`example/handout`](example/handout)
+### [`example/handout`](example/handout)
 
 An example handout!
 
 Clone this repository and open `example/handout/index.html`.
 
-## [`example/slides`](example/slides)
+### [`example/slides`](example/slides)
 
 Example slides!
 
 Clone this repository and open `example/slides/index.html`.
 
-## [`web/handout`](web/handout)
+### [`web/handout`](web/handout)
 
 JavaScript and CSS for rendering and running handouts.
 
@@ -28,7 +28,7 @@ Exercise answers are also stripped from the file and checked server-side.
 
   [PhantomJS]: http://phantomjs.org
 
-## [`scripts`](scripts)
+### [`scripts`](scripts)
 
 Shell scripts for pre-rendering handouts.
 
@@ -38,3 +38,16 @@ It delivers HTML files to one directory, for display on the web, and JSON files 
 `repo-post-receive-hook` is designed for use with [Git Meta-Hooks] and `deliver-handouts-athena` on Athena.
 
   [Git Meta-Hooks]: https://github.com/maxg/git-meta-hooks
+
+### [`server`](server)
+
+Server-side exercise checking for use with [scripts.mit.edu] and [Omnivore].
+
+`status.php` is shown in the right margin of exercise groups and allows the reader to log in via `cert/login.php`.
+
+`submit.php` handles exercise submission.
+It checks exercises using the JSON files delivered to `data` when handouts are pre-rendered.
+It also reports results to an Omnivore grade server.
+
+  [scripts.mit.edu]: https://scripts.mit.edu
+  [Omnivore]: https://github.com/maxg/omnivore
