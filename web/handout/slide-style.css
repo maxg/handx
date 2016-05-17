@@ -176,6 +176,61 @@ body.remark-container:not(.remark-presenter-mode) .remark-slide-number {
   visibility: initial;
 }
 
+/* reveal strikeout */
+.remark-slide-content.reveal:not(.build):not(.inout) .reveal-strike,
+.remark-slide-content.reveal.build._1 .reveal-strike._1,
+.remark-slide-content.reveal.build._2 .reveal-strike._2,
+.remark-slide-content.reveal.build._3 .reveal-strike._3,
+.remark-slide-content.reveal.build._4 .reveal-strike._4,
+.remark-slide-content.reveal.build._5 .reveal-strike._5,
+.remark-slide-content.reveal.build._6 .reveal-strike._6,
+.remark-slide-content.reveal.build._7 .reveal-strike._7,
+.remark-slide-content.reveal.build._8 .reveal-strike._8,
+.remark-slide-content.reveal.build._9 .reveal-strike._9,
+.remark-slide-content.reveal.build._10 .reveal-strike._10,
+.remark-slide-content.reveal.inout._1:not(._2) .reveal-strike._1,
+.remark-slide-content.reveal.inout._2:not(._3) .reveal-strike._2,
+.remark-slide-content.reveal.inout._3:not(._4) .reveal-strike._3,
+.remark-slide-content.reveal.inout._4:not(._5) .reveal-strike._4,
+.remark-slide-content.reveal.inout._5:not(._6) .reveal-strike._5,
+.remark-slide-content.reveal.inout._6:not(._7) .reveal-strike._6,
+.remark-slide-content.reveal.inout._7:not(._8) .reveal-strike._7,
+.remark-slide-content.reveal.inout._8:not(._9) .reveal-strike._8,
+.remark-slide-content.reveal.inout._9:not(._10) .reveal-strike._9,
+.remark-slide-content.reveal.inout._10 .reveal-strike._10
+ {
+  position: relative;
+}
+.remark-slide-content.reveal:not(.build):not(.inout) .reveal-strike::after,
+.remark-slide-content.reveal.build._1 .reveal-strike._1::after,
+.remark-slide-content.reveal.build._2 .reveal-strike._2::after,
+.remark-slide-content.reveal.build._3 .reveal-strike._3::after,
+.remark-slide-content.reveal.build._4 .reveal-strike._4::after,
+.remark-slide-content.reveal.build._5 .reveal-strike._5::after,
+.remark-slide-content.reveal.build._6 .reveal-strike._6::after,
+.remark-slide-content.reveal.build._7 .reveal-strike._7::after,
+.remark-slide-content.reveal.build._8 .reveal-strike._8::after,
+.remark-slide-content.reveal.build._9 .reveal-strike._9::after,
+.remark-slide-content.reveal.build._10 .reveal-strike._10::after,
+.remark-slide-content.reveal.inout._1:not(._2) .reveal-strike._1::after,
+.remark-slide-content.reveal.inout._2:not(._3) .reveal-strike._2::after,
+.remark-slide-content.reveal.inout._3:not(._4) .reveal-strike._3::after,
+.remark-slide-content.reveal.inout._4:not(._5) .reveal-strike._4::after,
+.remark-slide-content.reveal.inout._5:not(._6) .reveal-strike._5::after,
+.remark-slide-content.reveal.inout._6:not(._7) .reveal-strike._6::after,
+.remark-slide-content.reveal.inout._7:not(._8) .reveal-strike._7::after,
+.remark-slide-content.reveal.inout._8:not(._9) .reveal-strike._8::after,
+.remark-slide-content.reveal.inout._9:not(._10) .reveal-strike._9::after,
+.remark-slide-content.reveal.inout._10 .reveal-strike._10::after
+ {
+  content: '';
+  border-bottom: .15em solid rgba(250, 172, 63, 0.8);
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+}
+
 /* reveal circled text */
 .remark-slide-content.reveal:not(.build):not(.inout) .reveal-circle,
 .remark-slide-content.reveal.build._1 .reveal-circle._1,
