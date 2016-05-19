@@ -404,7 +404,7 @@ require('https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js', func
       './render/Markdown.Converter.js',
       'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js' ],
     [ './render/Markdown.Extra.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.1.0/highlight.min.js#render' ],
+      'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js#render' ],
   ];
   (function next() {
     var scripts = stages.shift();
