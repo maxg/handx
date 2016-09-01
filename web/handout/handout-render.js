@@ -80,7 +80,7 @@ function render() {
   // extend converter to understand java:... URLs as links to API docs
   converter.hooks.chain('postConversion', function(html) {
     return html.replace(/ href="java:([^"]+)"/g, function(link, clazz) {
-      return ' href="http://docs.oracle.com/javase/8/docs/api/?'+clazz+'.html"'
+      return ' href="http://docs.oracle.com/javase/8/docs/api/?'+clazz+'.html"';
     });
   });
   

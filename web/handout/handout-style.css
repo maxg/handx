@@ -46,6 +46,12 @@ footer.footer-margin {
     bottom: 4em;
   }
 }
+@media print {
+  footer.footer-margin {
+    position: static;
+    width: 100%;
+  }
+}
 footer.footer-margin > div {
   font-weight: normal;
   font-size: 85%;
@@ -57,6 +63,11 @@ footer.footer-margin > div {
   nav.table-of-contents {
     position: fixed;
     padding: 0;
+  }
+}
+@media print {
+  nav.table-of-contents {
+    position: absolute;
   }
 }
 .nav > li > a {
