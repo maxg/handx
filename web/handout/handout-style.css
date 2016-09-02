@@ -341,6 +341,36 @@ input[type=text].form-control {
   width: 50%;
 }
 
+/* videos */
+.video-status {
+  width: 100%;
+}
+@media(min-width:768px) {
+  .video-status {
+    position: absolute;
+    right: -25%;
+    width: 25%;
+  }
+}
+.video-player {
+  display: none;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  padding: 0;
+}
+.video-player .video-close {
+  position: absolute;
+  top: -1em;
+  right: 0;
+  color: #999;
+  opacity: 1;
+}
+.video-player .video-portal {
+  margin: 0;
+  background: black;
+}
+
 /* Bootstrap/Markdown spacing */
 .markdown h2 > small > p:only-child,
 .markdown h3 > small > p:only-child,

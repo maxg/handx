@@ -119,6 +119,25 @@ function render() {
     }
   });
   
+  // convert video links
+  $('.video').first().each(function() {
+    $('main').append($('<div>').addClass('video-player col-md-6 col-sm-9 col-xs-12')
+                               .append($('<button class="close video-close">&times;</button>'))
+                               .append($('<div>').addClass('video-portal panel panel-default')
+                                                 .append($('<div>').addClass('video-embed embed-responsive embed-responsive-16by9'))));
+  });
+  $('.video').each(function() {
+    var location = $(this).parents().map(function() { return $(this).data('outline'); }).get().reverse().join(',');
+    var title = $('p', this).last().remove().html();
+    var link = $('<a>').addClass('video-play')
+                       .attr('href', HANDOUT_VIDEO + location + '/' + $(this).data('video'))
+                       .append($('<strong>').html('&#x25B6;&#xFE0E; Play ' + title));
+    $(this).replaceWith($('<div>').addClass('video-status panel panel-info')
+                                  .append($('<div>').addClass('panel-body text-center')
+                                                    .append($(this).html())
+                                                    .append(link)));
+  });
+  
   // Bootstrap-ify elements that have handout-* CSS classes
   $('.handout-info').addClass('alert alert-info');
   $('.handout-solo').addClass('alert alert-warning');

@@ -297,6 +297,23 @@ function clearError(exercise) {
   exercise.error.empty();
 }
 
+// create a video player link
+function createVideo() {
+  $(this).on('click', function() {
+    $('.video-embed').empty();
+    var player = $('<iframe>').addClass('embed-responsive-item').attr('src', $(this).attr('href'));
+    $('.video-embed').append(player);
+    $('.video-player').show();
+    return false;
+  });
+}
+
+// close the video player
+function closeVideo() {
+  $('.video-embed').empty();
+  $('.video-player').hide();
+}
+
 //
 // main
 //
@@ -311,6 +328,10 @@ $(document).ready(function() {
   // wire up exercises
   $('.exercises').each(createExercise);
   $('.exercises-status').each(followLeaders('.handout-title, .exercises'));
+  
+  // wire up videos
+  $('.video-play').each(createVideo);
+  $('.video-close').on('click', closeVideo);
   
   // handle fragment identifiers
   if (location.hash) {
