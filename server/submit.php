@@ -50,8 +50,8 @@ foreach ($config->exercises as $exercise) {
   print $json;
 
   // done talking to the client
-  //header('Content-Length: ' . ob_get_length());
-  //ob_end_flush();
+  header('Content-Length: ' . ob_get_length());
+  ob_end_flush();
 
   // record submissions from logged-in users
   if ($username) {
