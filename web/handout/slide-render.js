@@ -53,6 +53,18 @@ function render() {
     });
   });
   
+  // fix syntax highlighting for Java block comments
+  $('.hljs.java .remark-code-line .hljs-comment').filter(function() {
+    return $(this).text().startsWith('/*');
+  }).each(function() {
+    var javadoc = $(this).text().startsWith('/**');
+    $(this).removeClass('hljs-comment')
+           .parent()
+           .nextUntil(':contains("*/") + .remark-code-line')
+           .addBack()
+           .addClass(javadoc ? 'handout-javadoc-comment' : 'hljs-comment');
+  });
+  
   // countdown timers
   addSlideTimerManager(show);
   
