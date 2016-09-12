@@ -218,6 +218,11 @@ table.side-by-side td:last-child {
   padding-left: 1em;
 }
 
+/* hovers */
+.hover-figure-select {
+  cursor: default;
+}
+
 /* exercises */
 iframe.exercises-status {
   width: 100%;

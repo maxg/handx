@@ -30,7 +30,7 @@ function createHoverInteraction() {
     $(this).addClass('highlighted').siblings().removeClass('highlighted');
     updateTarget.apply(this);
   }
-  $(selector).on('click mouseenter', update);
+  $(selector).addClass('hover-figure-select').on('click mouseenter', update);
   update.apply($(selector).first());
 }
 
