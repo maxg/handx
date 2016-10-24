@@ -89,15 +89,22 @@ strike::after {
   width: 100%;
 }
 
+.remark-slide-content .logo img {
+  height: 1.8em;
+  vertical-align: middle;
+}
+
 /* show blackout mode in presenter view
    note that clones created while in blackout mode do NOT start in blackout mode */
 body.remark-container.remark-blackout-mode {
   background: black;
 }
 
-/* don't show slide numbers */
-body.remark-container:not(.remark-presenter-mode) .remark-slide-number {
-  display: none;
+/* don't show slide numbers on screen */
+@media screen {
+  body.remark-container:not(.remark-presenter-mode) .remark-slide-number {
+    display: none;
+  }
 }
 
 /* chapter titles */
