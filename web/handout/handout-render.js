@@ -151,7 +151,7 @@ function render() {
   $('.table-of-contents').each(function() {
     var toc = $('<ul>').addClass('nav');
     var index = 0;
-    $('h1, .markdown h2').each(function() {
+    $('h1, .markdown h2, .with-content h2').each(function() {
       toc.append($('<li>').append($('<a>').text(this.textContent).attr('href', '#' + this.id)));
     });
     $(this).append(toc);
