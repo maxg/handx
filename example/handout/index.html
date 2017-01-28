@@ -4,10 +4,8 @@
 
 <title>Example Handout</title>
 
-<link href="../../web/handout/handout-style.css" rel="stylesheet"></link>
 </head>
 <body>
-<header>6.HANDX &mdash; Handouts + Exercises</header>
 <!-- optional: nav.table-of-contents becomes a table of contents -->
 <nav class="table-of-contents"></nav>
 <main>
@@ -15,6 +13,12 @@
 <div class="markdown">
 
 The page title is automatically added as a page heading.
+
+The configured class and semester are added to the header, and the department is added to the footer.
+
+Use a `div` with class `markdown` for [Markdown] conversion of body content.
+
+[Markdown]: https://en.wikipedia.org/wiki/Markdown
 
 ## Section
 
@@ -44,6 +48,17 @@ Sorry.
 <pre>
 Fixed-width block with **inline** *styles*.
 </pre>
+
+<table>
+<tr>
+<td>
+*Note:* Markdown conversion [recursively](https://en.wikipedia.org/wiki/Recursion) converts HTML elements.
+</td>
+<td class="no-markdown">
+<p>Add class `no-markdown` to *prevent* conversion.</p>
+</td>
+</tr>
+</table>
 
 <div class="reading-exercises">
 
@@ -111,10 +126,19 @@ And so on, and so on.
 
 </div>
 
+<div class="with-content">
+
+<h2>Yet another section</h2>
+
+<p>
+Use a <code>div</code> with class <code>with-content</code> for body content in HTML.
+</p>
+
+</div>
+
 </main>
 <!-- optional: footer containing &copy; becomes a copyright message -->
 <footer>&copy;</footer>
-<footer>MIT EECS</footer>
 <script src="../../web/handout/handout-render.js"></script>
 </body>
 </html>

@@ -28,6 +28,7 @@ function require(url, callback) {
   
   var script = document.createElement('script');
   script.type = 'text/javascript';
+  script.charset = 'utf-8';
   script.src = url;
   script.onerror = function(err) { throw err; }
   script.onload = callback;
@@ -43,14 +44,8 @@ function render() {
   if ( ! $('head meta[charset]').length) {
     $('head').prepend($('<meta>').attr({ charset: 'utf-8' }));
   }
-  // header link
-  $('header').html(function() {
-    return $('<a>').attr('href', HANDOUT_HOME).html(this.innerHTML);
-  });
-  // semester header
-  $('header').append($('<div>').text(HANDOUT_SEMESTER));
-  // copyright footer
-  $('footer:contains("\u00a9")').addClass('col-sm-2 footer-margin').html($('<div>').html(HANDOUT_AUTHORS));
+  // CSS
+  $('head').append($('<link>').attr({ href: require.abspath + 'handout-style.css', rel: 'stylesheet' }));
   // page title
   var title = $('head title').text();
   $('main').prepend($('<h1>').addClass('handout-title').text(title));
@@ -91,6 +86,16 @@ function render() {
     this.innerHTML = convertMarkdown(converter, this);
     $(this).addClass('converted');
   });
+  
+  var header = $('header').length ? $('header').first() : $('<header>').prependTo($('body'));
+  // header link
+  header.prepend($('<a>').attr('href', HANDOUT_HOME).text(HANDOUT_CLASS));
+  // semester header
+  header.append($('<div>').text(HANDOUT_SEMESTER));
+  // copyright footer
+  $('footer:contains("\u00a9")').addClass('col-sm-2 footer-margin').html($('<div>').html(HANDOUT_AUTHORS));
+  // department footer
+  $('body').append($('<footer>').text(HANDOUT_DEPARTMENT));
   
   // identify exercises
   $(HANDOUT_EXERCISES.map(function(category) {
