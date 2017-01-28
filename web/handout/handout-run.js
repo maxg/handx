@@ -73,8 +73,7 @@ function createExercise() {
   // build the exercise data structure with pointers to DOM nodes...
   $('.exercise-panel', this).each(function() {
     var exercise = {
-      id: $(this).parents().map(function() { return $(this).data('outline'); })[0] +
-          '/' + $(this).data('outline'),
+      id: $(this).data('ex-id'),
       category: $(this).data('ex-category'),
       node: $(this),
       parts: $('.exercise-part', this).map(function() {

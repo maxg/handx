@@ -317,12 +317,14 @@ function convertExercises(node, category) {
 }
 
 function convertExercise(container, category, title, content) {
-  var exerciseName = uniqueIdentifier('data-outline', title, container);
+  var section = container.parents('[data-outline]').first();
+  var exerciseName = uniqueIdentifier('data-outline', title, section);
   var exerciseId = container.attr('id') + '-' + exerciseName;
   var panel = $('<div class="panel panel-danger">')
               .append($('<div class="panel-collapse collapse exercise-panel">')
                       .attr('id', exerciseId)
                       .attr('data-outline', exerciseName)
+                      .attr('data-ex-id', section.data('outline') + '/' + exerciseName)
                       .attr('data-ex-category', category)
                       .append('<div class="panel-body">'));
   var body = content.wrapAll(panel).parent();
