@@ -330,14 +330,10 @@ function convertExercise(container, category, title, content) {
   var body = content.wrapAll(panel).parent();
   
   // parts
-  var lastSubhead = undefined;
   $('.form-group', body).each(function(idx) {
     var group = $(this).addClass('exercise-part');
     
-    // to use nearest subheading as part label, but only if it's a new subheading since last time:
-    var nearSubhead = undefined; // group.prevAll('h2').get(0) || lastSubhead;
-    var label = nearSubhead !== lastSubhead ? $(nearSubhead).text() : 'part_' + (idx+1);
-    lastSubhead = nearSubhead;
+    var label = String.fromCharCode('a'.charCodeAt(0) + idx);
     group.attr('data-outline', uniqueIdentifier('data-outline', label, body));
     
     $('.checkbox, .radio, .dropdown, .textfield', this).addClass('exercise-choice')
