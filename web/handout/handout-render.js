@@ -413,7 +413,7 @@ function uniqueText(attr, text, context) {
 //
 
 // load jQuery, load other dependencies, and render
-require('https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js', function () {
+require('https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', function () {
   
   // future calls to require can use relative paths
   require.abspath = $('script[src*=handout-render]').attr('src').match(/.*\//)[0];
@@ -421,9 +421,9 @@ require('https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js', func
   var stages = [
     [ './course-setup.js#render',
       './render/Markdown.Converter.js',
-      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js' ],
+      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' ],
     [ './render/Markdown.Extra.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js#render' ],
+      'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js#render' ],
   ];
   (function next() {
     var scripts = stages.shift();
