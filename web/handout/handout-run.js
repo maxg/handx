@@ -76,6 +76,9 @@ function createExercise() {
       id: $(this).data('ex-id'),
       category: $(this).data('ex-category'),
       node: $(this),
+      flags: {
+        no_iterate: $(this).data('ex-no-iterate')
+      },
       parts: $('.exercise-part', this).map(function() {
         return {
           node: $(this),
@@ -181,7 +184,7 @@ var localHandler = {
 var remoteHandler = {
   onSubmit: function(exercise) {
     if ( ! displayExerciseAttempted(exercise)) { return; }
-    ajax(exercise, {}, function handleSubmit(response) {
+    ajax(exercise, { reveal: exercise.flags.no_iterate }, function handleSubmit(response) {
       exercise.correct = response.result.correct;
       exercise.parts.forEach(function(part) {
         part.correct = response.result.parts.shift().correct;
@@ -246,7 +249,11 @@ function displayExerciseAttempted(exercise) {
     return complete;
   }).reduce(AND);
   if ( ! complete) {
-    showError(exercise, 'before you check your answers', 'please attempt every part');
+    if (exercise.flags.no_iterate) {
+      showError(exercise, 'before you submit your answers', 'you must answer every part');
+    } else {
+      showError(exercise, 'before you check your answers', 'please attempt every part');
+    }
   }
   return complete;
 }
@@ -257,7 +264,7 @@ function displayExerciseAnswered(exercise) {
     part.node.addClass('exercise-answered').toggleClass('exercise-correct', part.correct);
   });
   $('.exercise-reveal', exercise.node).show();
-  if (exercise.correct) {
+  if (exercise.correct || exercise.flags.no_iterate) {
     $('.exercise-submit', exercise.node).prop('disabled', true);
     displayExerciseReveal(exercise);
   }

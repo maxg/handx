@@ -301,7 +301,7 @@ function convertExercises(node, category) {
                          .prepend('<h4 class="text-danger">' + categoryName + '</h4>');
   
   $('h1', container).each(function() {
-    convertExercise(container, category, $(this).text(), $(this).nextUntil('hr'));
+    convertExercise(container, category, $(this), $(this).nextUntil('hr'));
   });
   
   // remove original exercise titles and dividers
@@ -316,16 +316,19 @@ function convertExercises(node, category) {
   });
 }
 
-function convertExercise(container, category, title, content) {
+function convertExercise(container, category, heading, content) {
+  var title = heading.text();
   var section = container.parents('[data-outline]').first();
   var exerciseName = uniqueIdentifier('data-outline', title, section);
   var exerciseId = container.attr('id') + '-' + exerciseName;
   var panel = $('<div class="panel panel-danger">')
-              .append($('<div class="panel-collapse collapse exercise-panel">')
+              .append($('<div class="panel-collapse exercise-panel">')
+                      .toggleClass('collapse', ! heading.hasClass('exercise-expand'))
                       .attr('id', exerciseId)
                       .attr('data-outline', exerciseName)
                       .attr('data-ex-id', section.data('outline') + '/' + exerciseName)
                       .attr('data-ex-category', category)
+                      .attr('data-ex-no-iterate', heading.hasClass('exercise-no-iterate') || null)
                       .append('<div class="panel-body">'));
   var body = content.wrapAll(panel).parent();
   
@@ -384,8 +387,13 @@ function convertExercise(container, category, title, content) {
   body.parent().parent().prepend(head);
   
   // footer
-  var submit = $('<button class="btn btn-default exercise-submit">').text('check');
-  var reveal = $('<button class="btn btn-default exercise-reveal">').text('explain').hide();
+  if (heading.hasClass('exercise-no-iterate')) {
+    var submit = $('<button class="btn btn-default exercise-submit">').text('submit');
+    var reveal = $();
+  } else {
+    var submit = $('<button class="btn btn-default exercise-submit">').text('check');
+    var reveal = $('<button class="btn btn-default exercise-reveal">').text('explain').hide();
+  }
   var foot = $('<div class="form-inline">')
              .append($('<div class="form-group">')
                      .append(submit, '&emsp;', reveal))
