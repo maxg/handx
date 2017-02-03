@@ -272,34 +272,52 @@ body.remark-container.remark-blackout-mode {
 }
 
 /* reveal circled list items */
-.remark-slide-content.reveal:not(.build):not(.inout) li .reveal-circle,
-.remark-slide-content.reveal.build._1 li .reveal-circle._1,
-.remark-slide-content.reveal.build._2 li .reveal-circle._2,
-.remark-slide-content.reveal.build._3 li .reveal-circle._3,
-.remark-slide-content.reveal.build._4 li .reveal-circle._4,
-.remark-slide-content.reveal.build._5 li .reveal-circle._5,
-.remark-slide-content.reveal.build._6 li .reveal-circle._6,
-.remark-slide-content.reveal.build._7 li .reveal-circle._7,
-.remark-slide-content.reveal.build._8 li .reveal-circle._8,
-.remark-slide-content.reveal.build._9 li .reveal-circle._9,
-.remark-slide-content.reveal.build._10 li .reveal-circle._10,
-.remark-slide-content.reveal.inout._1:not(._2) li .reveal-circle._1,
-.remark-slide-content.reveal.inout._2:not(._3) li .reveal-circle._2,
-.remark-slide-content.reveal.inout._3:not(._4) li .reveal-circle._3,
-.remark-slide-content.reveal.inout._4:not(._5) li .reveal-circle._4,
-.remark-slide-content.reveal.inout._5:not(._6) li .reveal-circle._5,
-.remark-slide-content.reveal.inout._6:not(._7) li .reveal-circle._6,
-.remark-slide-content.reveal.inout._7:not(._8) li .reveal-circle._7,
-.remark-slide-content.reveal.inout._8:not(._9) li .reveal-circle._8,
-.remark-slide-content.reveal.inout._9:not(._10) li .reveal-circle._9,
-.remark-slide-content.reveal.inout._10 li .reveal-circle._10
+.remark-slide-content.reveal:not(.build):not(.inout) li > .reveal-circle:first-child,
+.remark-slide-content.reveal:not(.build):not(.inout) li > p > .reveal-circle:first-child,
+.remark-slide-content.reveal.build._1 li > .reveal-circle._1:first-child,
+.remark-slide-content.reveal.build._1 li > p > .reveal-circle._1:first-child,
+.remark-slide-content.reveal.build._10 li > .reveal-circle._10:first-child,
+.remark-slide-content.reveal.build._10 li > p > .reveal-circle._10:first-child,
+.remark-slide-content.reveal.build._2 li > .reveal-circle._2:first-child,
+.remark-slide-content.reveal.build._2 li > p > .reveal-circle._2:first-child,
+.remark-slide-content.reveal.build._3 li > .reveal-circle._3:first-child,
+.remark-slide-content.reveal.build._3 li > p > .reveal-circle._3:first-child,
+.remark-slide-content.reveal.build._4 li > .reveal-circle._4:first-child,
+.remark-slide-content.reveal.build._4 li > p > .reveal-circle._4:first-child,
+.remark-slide-content.reveal.build._5 li > .reveal-circle._5:first-child,
+.remark-slide-content.reveal.build._5 li > p > .reveal-circle._5:first-child,
+.remark-slide-content.reveal.build._6 li > .reveal-circle._6:first-child,
+.remark-slide-content.reveal.build._6 li > p > .reveal-circle._6:first-child,
+.remark-slide-content.reveal.build._7 li > .reveal-circle._7:first-child,
+.remark-slide-content.reveal.build._7 li > p > .reveal-circle._7:first-child,
+.remark-slide-content.reveal.build._8 li > .reveal-circle._8:first-child,
+.remark-slide-content.reveal.build._8 li > p > .reveal-circle._8:first-child,
+.remark-slide-content.reveal.build._9 li > .reveal-circle._9:first-child,
+.remark-slide-content.reveal.build._9 li > p > .reveal-circle._9:first-child,
+.remark-slide-content.reveal.inout._10 li > .reveal-circle._10:first-child
+.remark-slide-content.reveal.inout._10 li > p > .reveal-circle._10:first-child,
+.remark-slide-content.reveal.inout._1:not(._2) li > .reveal-circle._1:first-child,
+.remark-slide-content.reveal.inout._1:not(._2) li > p > .reveal-circle._1:first-child,
+.remark-slide-content.reveal.inout._2:not(._3) li > .reveal-circle._2:first-child,
+.remark-slide-content.reveal.inout._2:not(._3) li > p > .reveal-circle._2:first-child,
+.remark-slide-content.reveal.inout._3:not(._4) li > .reveal-circle._3:first-child,
+.remark-slide-content.reveal.inout._3:not(._4) li > p > .reveal-circle._3:first-child,
+.remark-slide-content.reveal.inout._4:not(._5) li > .reveal-circle._4:first-child,
+.remark-slide-content.reveal.inout._4:not(._5) li > p > .reveal-circle._4:first-child,
+.remark-slide-content.reveal.inout._5:not(._6) li > .reveal-circle._5:first-child,
+.remark-slide-content.reveal.inout._5:not(._6) li > p > .reveal-circle._5:first-child,
+.remark-slide-content.reveal.inout._6:not(._7) li > .reveal-circle._6:first-child,
+.remark-slide-content.reveal.inout._6:not(._7) li > p > .reveal-circle._6:first-child,
+.remark-slide-content.reveal.inout._7:not(._8) li > .reveal-circle._7:first-child,
+.remark-slide-content.reveal.inout._7:not(._8) li > p > .reveal-circle._7:first-child,
+.remark-slide-content.reveal.inout._8:not(._9) li > .reveal-circle._8:first-child,
+.remark-slide-content.reveal.inout._8:not(._9) li > p > .reveal-circle._8:first-child,
+.remark-slide-content.reveal.inout._9:not(._10) li > .reveal-circle._9:first-child,
+.remark-slide-content.reveal.inout._9:not(._10) li > p > .reveal-circle._9:first-child
  {
-  padding-left: 50px;
-  padding-right: 15px;
-  padding-bottom: 1px;
-  margin-top: -5px;
-  margin-bottom: -6px;
-  left: -55px;
+  padding-left: 40px;
+  left: -45px;
+  margin-right: -50px;
 }
 
 /* on-slide countdown timers */

@@ -33,8 +33,10 @@ function render() {
   $('#source').prepend([
     'class: chapter',
     '# ' + $('head title').text(),
-    '## ' + HANDOUT_SEMESTER,
+    '## ' + HANDOUT_CLASS + '<br>' + HANDOUT_SEMESTER,
     HANDOUT_AUTHORS,
+    '',
+    HANDOUT_DEPARTMENT,
     '---\n'
   ].join('\n'));
   
@@ -129,7 +131,7 @@ function addSlideTimerManager(show) {
 //
 
 // load jQuery, load other dependencies, and render
-require('https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js', function () {
+require('https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', function () {
   
   // future calls to require can use relative paths
   require.abspath = $('script[src*=slide-render]').attr('src').match(/.*\//)[0];
