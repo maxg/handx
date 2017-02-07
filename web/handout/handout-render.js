@@ -52,7 +52,14 @@ function render() {
   // bootstrappiness
   $('nav').addClass('col-sm-2');
   $('main').addClass('container-fluid');
-  $('h1, .markdown, .with-content').addClass('col-sm-8 col-sm-offset-2');
+  if ($('main').hasClass('fullpage')) {
+    var column = 'col-sm-12';
+  } else if ($('main').hasClass('widepage')) {
+    var column = 'col-sm-10 col-sm-offset-1';
+  } else {
+    var column = 'col-sm-8 col-sm-offset-2';
+  }
+  $('h1, .markdown, .with-content').addClass(column);
   // mobile
   if ( ! $('head meta[name="viewport"]').length) {
     $('head').append($('<meta>').attr({ name: 'viewport', content: 'width=device-width, initial-scale=1' }));
