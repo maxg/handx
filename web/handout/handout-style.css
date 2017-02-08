@@ -172,6 +172,19 @@ tt {
   box-shadow: 0 0 0 4px #fcf8e3;
 }
 
+.handout-aside.panel {
+  max-width: 40%;
+}
+.handout-aside.panel.pull-margin {
+  max-width: 55%;
+}
+.handout-aside.panel .panel-heading {
+  padding: 6px 8px;
+}
+.handout-aside.panel .panel-body {
+  padding: 8px;
+}
+
 /* floating panels */
 .panel.pull-right {
   margin: 0 0 10px 10px;

@@ -155,6 +155,17 @@ function render() {
   $('.handout-solo').addClass('alert alert-warning');
   $('.handout-group').addClass('alert alert-success');
   $('.handout-due').addClass('alert alert-danger');
+  $('.handout-aside-info').addClass('handout-aside panel-info');
+  $('.handout-aside-solo').addClass('handout-aside panel-warning');
+  $('.handout-aside-group').addClass('handout-aside panel-success');
+  $('.handout-aside-due').addClass('handout-aside panel-danger');
+  $('.handout-aside').each(function() {
+    $(this).addClass('panel panel-default pull-right');
+    var heading = $(this).children().first().remove();
+    var body = $(this).wrapInner($('<div>').addClass('panel-body'));
+    $(this).prepend($('<div>').addClass('panel-heading')
+                              .append($('<strong>').append(heading.html())));
+  });
   
   // Bootstrap-ify generated HTML
   $('.alert a').addClass('alert-link');
