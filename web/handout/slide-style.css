@@ -100,6 +100,14 @@ body.remark-container.remark-blackout-mode {
   background: black;
 }
 
+body.remark-container.remark-presenter-mode .remark-slides-area,
+body.remark-container.remark-presenter-mode .remark-preview-area {
+  width: 76%;
+}
+body.remark-container.remark-presenter-mode .remark-notes-area {
+  left: 80%;
+}
+
 /* don't show slide numbers on screen */
 @media screen {
   body.remark-container:not(.remark-presenter-mode) .remark-slide-number {
