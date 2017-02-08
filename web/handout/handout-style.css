@@ -85,6 +85,12 @@ footer.footer-margin > div {
   background-color: #333;
 }
 
+@media print {
+  a[href]:after {
+    content: none;
+  }
+}
+
 /* definition lists always act like dl-horizontal */
 dl {
   margin-bottom: 0;
