@@ -93,7 +93,7 @@ function addSlideTimerManager(show) {
     
     function update(force) {
       var time = new Date() - started;
-      var remaining = duration - Math.round(time/1000);
+      var remaining = Math.max(duration - Math.round(time/1000), 0);
       
       if (remaining <= 0) {
         clock.addClass('remark-slide-timer-expired');
