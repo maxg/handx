@@ -346,5 +346,6 @@ $(document).ready(function() {
 
   // ready callback
   window.handoutReady = true;
+  if (window.HANDOUT_READY) { window.HANDOUT_READY(); }
   if (window.onHandoutReady) { window.onHandoutReady(); }
 });

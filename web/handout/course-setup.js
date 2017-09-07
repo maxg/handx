@@ -14,3 +14,8 @@ HANDOUT_EXERCISES = [ 'reading-exercises' ];
 // HANDOUT_HANDX = 'https://example.com/handx/ia00/';
 // optional: location for videos
 // HANDOUT_VIDEO = 'https://example.com/6.HANDX/video/';
+
+// optional: course-wide JavaScript hooks
+// HANDOUT_WILL_RENDER = function(converter) { ... };
+// HANDOUT_DID_RENDER = function() { ... };
+// HANDOUT_READY = function() { ... };

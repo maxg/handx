@@ -86,6 +86,7 @@ function render() {
     });
   });
   
+  if (window.HANDOUT_WILL_RENDER) { window.HANDOUT_WILL_RENDER(converter); }
   if (window.onHandoutWillRender) { window.onHandoutWillRender(converter); }
   
   // convert all Markdown divs
@@ -190,6 +191,7 @@ function render() {
     return $(this).text().indexOf('/**') === 0;
   }).addClass('handout-javadoc-comment');
   
+  if (window.HANDOUT_DID_RENDER) { window.HANDOUT_DID_RENDER(); }
   if (window.onHandoutDidRender) { window.onHandoutDidRender(); }
 }
 
