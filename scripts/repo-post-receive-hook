@@ -12,7 +12,8 @@ set -u
 # meta-hook supplies original script name
 self="$1"
 
-semester="${self%/scripts/repo-post-receive-hook}"
+subdir="${self%scripts/repo-post-receive-hook}"
+src="${subdir%/}"
 
 # be helpful to someone debugging this script
 if [ -z "$GIT_DIR" -o -z "$self" ]; then
@@ -32,14 +33,14 @@ if [ "$branch" != "$master" -o -z "$newrev" ]; then
   exit 0
 fi
 
-# update our snapshot of master
-echo Updating snapshot in $snapshotdir
-GIT_WORK_TREE="$snapshotdir" git checkout -f
+# if this script will update the snapshot...
+#echo Updating snapshot in $snapshotdir
+#GIT_WORK_TREE="$snapshotdir" git checkout -f
 
 # deploy handouts to the web
 git diff --name-only "$oldrev" "$newrev" |
-perl -lne "/$semester"'\/(.*)\/handout\// && print $1' |
+perl -lne "/$subdir"'(.*)\/handout\// && print $1' |
 sort | uniq |
 while read -r dir; do
-  "$snapshotdir/$semester/scripts/deliver-handouts-athena" "$dir"
+  "$snapshotdir/$src/scripts/deliver-handouts-athena" "$dir"
 done
