@@ -341,7 +341,10 @@ $(document).ready(function() {
   
   // handle fragment identifiers
   if (location.hash) {
-    document.getElementById(location.hash.substr(1)).scrollIntoView();
+    var elt = document.getElementById(decodeURIComponent(location.hash.substr(1)));
+    if (elt) {
+      elt.scrollIntoView();
+    }
   }
 
   // ready callback
