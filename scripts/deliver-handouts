@@ -78,6 +78,9 @@ while read -r file; do           # for each file...
         # ="../web/something"  ->  ="web/something"
         perl -pi -e 's#(=")\.\./([^"]*")#\1\2#g' "$deploy/$file"
       fi
+      # fix paths to index files
+      # ="../../web/index.html" -> ="../../web/", ="dir/index.html" -> ="dir/"
+      perl -pi -e 's#(="(?:[^":]+/)*)index\.s?html([^"]*")#\1\2#g' "$deploy/$file"
       ;;
   esac
 done
