@@ -196,7 +196,7 @@ function render() {
 }
 
 // recursively convert a node containing Markdown and possibly HTML
-function convertMarkdown(md, node) {
+function convertMarkdown(md, node, intoSpan) {
   var marker = '%converted%';
   while (node.outerHTML.indexOf(marker) >= 0) { marker += '%' };
   var saved = [];
@@ -220,10 +220,14 @@ function convertMarkdown(md, node) {
     if (node.tagName == 'BR') {
       return node.outerHTML;
     }
-    return save(node.outerHTML.replace(node.innerHTML, convertMarkdown(md, node).trim()));
+    return save(node.outerHTML.replace(node.innerHTML,
+      convertMarkdown(md, node, [ 'SUB', 'SUP' ].indexOf(node.tagName) >= 0).trim()));
   });
   var text = children.join('');
-  var html = needsConversion ? md.makeHtml(text) : text;
+  var html = needsConversion ? md.makeHtml((intoSpan ? '# ' : '') + text) : text;
+  if (intoSpan) {
+    html = html.replace(/<h1>(.*)<\/h1>/, '$1');
+  }
   
   saved.forEach(function(result, idx) {
     html = html.replace('<p>' + marker + (idx+1) + '</p>', result);
