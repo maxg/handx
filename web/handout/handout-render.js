@@ -97,6 +97,11 @@ function render() {
   
   var header = $('header').length ? $('header').first() : $('<header>').prependTo($('body'));
   // header link
+  if ($('.table-of-contents').length) {
+    header.before($('<header>').addClass('chip')
+                               .append($('<a>').attr('href', HANDOUT_HOME)
+                                               .text(HANDOUT_CLASS.match(/\S+/)[0])));
+  }
   header.prepend($('<a>').attr('href', HANDOUT_HOME).text(HANDOUT_CLASS));
   // semester header
   header.append($('<div>').text(HANDOUT_SEMESTER));
@@ -174,7 +179,6 @@ function render() {
   // build table of contents
   $('.table-of-contents').each(function() {
     var toc = $('<ul>').addClass('nav');
-    var index = 0;
     $('h1, .markdown h2, .with-content h2').each(function() {
       toc.append($('<li>').append($('<a>').text(this.textContent).attr('href', '#' + this.id)));
     });

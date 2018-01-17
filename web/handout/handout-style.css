@@ -17,6 +17,7 @@ body {
 /* headers and footers */
 header {
   background: #333;
+  position: relative;
 }
 footer {
   background: #333;
@@ -59,6 +60,20 @@ footer.footer-margin > div {
 }
 
 /* table of contents */
+header.chip {
+  display: none;
+  background: #fff;
+}
+header.chip a, header.chip a:focus, header.chip a:hover {
+  color: #999;
+}
+@media screen and (min-width:768px) {
+  header.chip {
+    display: block;
+    position: fixed;
+    top: 0;
+  }
+}
 @media(min-width:768px) {
   nav.table-of-contents {
     position: fixed;
