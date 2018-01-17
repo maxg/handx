@@ -120,7 +120,11 @@ function render() {
     $(h).each(function() {
       if ($(this).closest('.exercises').length) { return; }
       if ( ! this.id) { this.id = uniqueIdentifier('id', this.textContent); }
-      $(this).nextUntil(h).wrapAll($('<div>').attr('data-outline', this.id));
+      var div = $('<div>').attr('data-outline', this.id);
+      while (this.nextSibling &&  ! $(this.nextSibling).is(h)) {
+        div.append(this.nextSibling);
+      }
+      $(this).after(div);
     });
   });
   
