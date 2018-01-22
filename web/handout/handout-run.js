@@ -343,10 +343,12 @@ $(document).ready(function() {
   if (location.hash) {
     var elt = document.getElementById(decodeURIComponent(location.hash.substr(1)));
     if (elt) {
+      $('.exercise-panel.collapse', elt).addClass('in'); // jump to an exercise
+      $(elt).parents('.exercise-panel.collapse').addClass('in'); // jump inside an exercise
       elt.scrollIntoView();
     }
   }
-
+  
   // ready callback
   window.handoutReady = true;
   if (window.HANDOUT_READY) { window.HANDOUT_READY(); }

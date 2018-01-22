@@ -100,6 +100,53 @@ header.chip a, header.chip a:focus, header.chip a:hover {
   background-color: #333;
 }
 
+/* jump links */
+.margin {
+  position: fixed;
+  height: 100%;
+}
+a.jump {
+  opacity: 0;
+  position: absolute;
+  left: -7px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  padding: 0 7px 7px 7px;
+  transition: opacity .5s 0s;
+}
+h1 a.jump {
+  padding-top: 4px;
+}
+h2 a.jump {
+  padding-top: 2px;
+}
+.alert a.jump.alert-link {
+  font-weight: normal;
+}
+.panel-body a.jump {
+  padding-left: 2px;
+}
+a.jump::after {
+  content: '#';
+}
+.margin:hover ~ * a.jump,
+.table-of-contents:hover ~ * a.jump,
+a.jump:hover {
+  opacity: 1;
+  transition: opacity .5s 0s;
+}
+[id]:target {
+  background: #fcf8e3;
+}
+[id]:target + div[data-outline] {
+  animation: highlightout 2s;
+}
+@keyframes highlightout {
+  from { background: #fcf8e3; }
+  to { background: none; }
+}
+
 @media print {
   a[href]:after {
     content: none;

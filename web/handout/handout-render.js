@@ -56,8 +56,10 @@ function render() {
     var column = 'col-sm-12';
   } else if ($('main').hasClass('widepage')) {
     var column = 'col-sm-10 col-sm-offset-1';
+    $('body').prepend($('<div>').addClass('margin col-sm-1'));
   } else {
     var column = 'col-sm-8 col-sm-offset-2';
+    $('body').prepend($('<div>').addClass('margin col-sm-2'));
   }
   $('h1, .markdown, .with-content').addClass(column);
   // mobile
@@ -179,6 +181,9 @@ function render() {
   
   // Bootstrap-ify generated HTML
   $('.alert a').addClass('alert-link');
+  
+  // assign IDs to content chunks
+  identifyChunks($('.table-of-contents').length);
   
   // build table of contents
   $('.table-of-contents').each(function() {
@@ -328,7 +333,8 @@ function convertMarkdownTextFields(text) {
 
 function convertExercises(node, category) {
   var categoryName = category.replace(/-/g, ' ');
-  var container = $(node).attr('id', uniqueIdentifier('id', 'ex'))
+  var section = $(node).parents('[data-outline]').slice(-2).first();
+  var container = $(node).attr('id', uniqueIdentifier('id', 'ex-' + section.data('outline')))
                          .addClass('exercises panel-group')
                          .prepend('<h4 class="text-danger">' + categoryName + '</h4>');
   
@@ -412,7 +418,8 @@ function convertExercise(container, category, heading, content) {
   // header
   var head = $('<div class="panel-heading">')
              .append($('<span class="panel-title">').text(title)).attr({
-               'data-target': '#'+exerciseId,
+               'id': '@' + exerciseId,
+               'data-target': '#' + exerciseId,
                'data-toggle': 'collapse',
                // to collapse other exercises: 'data-parent': '#'+container.attr('id'),
              });
@@ -432,6 +439,58 @@ function convertExercise(container, category, heading, content) {
              .append($('<div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div>'))
              .append($('<div class="exercise-error"></div>'));
   body.append(foot);
+}
+
+function identifyChunks(dense) {
+  var jumpable = 'h1, h2, h3, h4, h5, h6, .panel-heading' + (dense ? ', p, pre, ol>li:first-child, ul>li:first-child, table' : '');
+  var exclude = '.exercise-explain *, .faq h3 + div > p:first-child';
+  var elements = $(jumpable).not(':has(' + jumpable + ')').not(exclude);
+  var chunks = {};
+  var stopwords = [
+    'a', 'an', 'and', 'are', 'as', 'at', 'by', 'for', 'from', 'has', 'have', 'how',
+    'in', 'is', 'it', 'it-s', 'of', 'on', 'or', 'that', 'the', 'this', 'to',
+    'was', 'we', 'were', 'we-re', 'what', 'when', 'where', 'who', 'will', 'with',
+  ];
+  elements.map(function(idx, elt) {
+    var words = $(this).text().toLowerCase().split(/\s+/).map(function(word) {
+      return word.replace(/^\W+|\W+$/g, '').replace(/\W+/g, '-');
+    }).filter(function(word) {
+      return word && (stopwords.indexOf(word) < 0);
+    });
+    return { $elt: this, $words: words };
+  }).each(function() {
+    var here = chunks;
+    while (this.$words.length) {
+      var word = this.$words.shift();
+      if ( ! here[word]) {
+        here[word] = this;
+        return;
+      }
+      if (here[word].$elt) {
+        var current = here[word];
+        here[word] = {};
+        if ( ! current.$words.length) { return; }
+        here[word][current.$words.shift()] = current;
+      }
+      here = here[word];
+    }
+  });
+  var size = 3;
+  (function labeler(labels, tree) {
+    if (tree.$elt) {
+      if ( ! tree.$elt.id) {
+        Array.prototype.push.apply(labels, tree.$words.slice(0, (size - (labels.length % size)) % size));
+        tree.$elt.id = '@' + labels.join('_');
+      }
+    } else {
+      Object.keys(tree).forEach(function(key) {
+        labeler(labels.concat(key), tree[key]);
+      });
+    }
+  })([], chunks);
+  elements.filter('[id]').prepend(function() {
+    return $('<a>').addClass('jump').attr('href', '#' + this.id);
+  });
 }
 
 function uniqueIdentifier(attr, text, context) {
