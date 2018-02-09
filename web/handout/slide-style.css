@@ -68,14 +68,6 @@ a {
 .remark-slide-content ol {
   margin: 20px 0;
 }
-.remark-slide-content.squeeze h1,
-.remark-slide-content.squeeze h2,
-.remark-slide-content.squeeze h3,
-.remark-slide-content.squeeze p,
-.remark-slide-content.squeeze pre,
-.remark-slide-content.squeeze ol {
-  margin: 10px 0;
-}
 
 strike {
   position: relative;
@@ -147,6 +139,21 @@ body.remark-container.remark-presenter-mode .remark-notes-area {
   margin-bottom: 20px;
 }
 .up > :last-child {
+  margin-bottom: 0;
+}
+
+.remark-slide-content.squeeze h1,
+.remark-slide-content.squeeze h2,
+.remark-slide-content.squeeze h3,
+.remark-slide-content.squeeze p,
+.remark-slide-content.squeeze pre,
+.remark-slide-content.squeeze ol {
+  margin: 10px 0;
+}
+.remark-slide-content.squeeze .up {
+  margin-bottom: 10px;
+}
+.remark-slide-content.squeeze .up > :last-child {
   margin-bottom: 0;
 }
 
