@@ -54,6 +54,9 @@ a {
 .remark-slide-content .smaller { /* progressively smaller */
   font-size: 85%;
 }
+.remark-slide-content .larger { /* likewise larger */
+  font-size: 115%;
+}
 .remark-slide-content code {
   font-size: 90%;
 }
