@@ -15,6 +15,9 @@ HANDOUT_EXERCISES = [ 'reading-exercises' ];
 // optional: location for videos
 // HANDOUT_VIDEO = 'https://example.com/6.HANDX/video/';
 
+// optional: configuration for slides
+// HANDOUT_SLIDE_OPTIONS = { ratio: '16:9' };
+
 // optional: course-wide JavaScript hooks
 // HANDOUT_WILL_RENDER = function(converter) { ... };
 // HANDOUT_DID_RENDER = function() { ... };

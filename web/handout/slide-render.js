@@ -41,10 +41,10 @@ function render() {
   ].join('\n'));
   
   // convert presentation
-  var show = remark.create({
+  var show = remark.create(Object.assign({
     navigation: { scroll: false, touch: false },
     highlightStyle: null,
-  });
+  }, window.HANDOUT_SLIDE_OPTIONS));
   
   // colors
   $('.color').each(function() {
