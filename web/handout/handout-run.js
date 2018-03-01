@@ -27,7 +27,8 @@ function createHoverInteraction() {
     }
   }
   var update = function() {
-    $(this).addClass('highlighted').siblings().removeClass('highlighted');
+    $(selector).removeClass('highlighted');
+    $(this).addClass('highlighted');
     updateTarget.apply(this);
   }
   $(selector).addClass('hover-figure-select').on('click mouseenter', update);
