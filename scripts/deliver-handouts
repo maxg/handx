@@ -62,7 +62,9 @@ while read -r file; do           # for each file...
     IFS=/ read -r kind handout part <<< "$path/${file%.*html}"
     part="${part%index}"; part="${part%/}"
     [ -f "$deploy/$file" ] && rm "$deploy/$file"
-    "$phantomjs" "$src/$deliver" "$from/$file" "$deploy/$file" "$handx" "$kind" "$handout" "$part"
+    "$phantomjs" "$src/$deliver" "$from/$file" "$deploy/$file" "$handx" "$kind" "$handout" "$part" > >(
+      sed -e $'s/error./\e[1;31m&\e[0m/' -e $'s/warning./\e[1;33m&\e[0m/'
+    )
   else
     # just copy the file
     echo "  copy   $file"

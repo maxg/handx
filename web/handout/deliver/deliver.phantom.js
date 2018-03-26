@@ -78,8 +78,7 @@ page.onError = function(msg, trace) {
 };
 
 page.onResourceError = function(err) {
-  console.log('resource error', err.url, err.errorString);
-  phantom.exit(2);
+  console.log('warning: resource error', err.url, err.errorString);
 };
 
 page.onCallback = function(hasExercises) {
