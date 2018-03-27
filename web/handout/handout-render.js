@@ -525,7 +525,7 @@ require('https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', func
       './render/Markdown.Converter.js',
       'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' ],
     [ './render/Markdown.Extra.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js#render' ],
+      'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js#render' ],
   ];
   (function next() {
     var scripts = stages.shift();
