@@ -76,6 +76,14 @@ function render() {
     table_class: 'table',
   });
   
+  // extend converter to create mark tags
+  converter.hooks.chain('postSpanGamut', function(text) {
+    if (text.indexOf('{') < 0) { return text; }
+    return text.replace(/\{([^{}\n]+)\}(?:\{([^{}\n]+)\})?/g, function(_, html, text) {
+      return '<mark' + (text ? ' data-mark-text="' + text + '"' : '') + '>' + html + '</mark>';
+    });
+  });
+  
   // extend converter to understand form elements...
   converter.hooks.chain('postBlockGamut', convertMarkdownChoiceBlocks);
   converter.hooks.chain('postBlockGamut', convertMarkdownDropdowns);
@@ -121,7 +129,7 @@ function render() {
   [ 'h1', 'h2', 'h3' ].forEach(function(h) { // higher-level headers get cleaner IDs
     $(h).each(function() {
       if ($(this).closest('.exercises').length) { return; }
-      if ( ! this.id) { this.id = uniqueIdentifier('id', this.textContent); }
+      if ( ! this.id) { this.id = uniqueIdentifier('id', '', this.textContent); }
       var div = $('<div>').attr('data-outline', this.id);
       while (this.nextSibling &&  ! $(this.nextSibling).is(h)) {
         div.append(this.nextSibling);
@@ -182,6 +190,14 @@ function render() {
   // Bootstrap-ify generated HTML
   $('.alert a').addClass('alert-link');
   
+  // assign IDs to marks
+  $('mark').each(function() {
+    this.dataset.structureText = this.dataset.markText ||
+                                 this.textContent.match(/^[A-Z0-9_]+$/) ||
+                                 pluralize.singular(this.textContent.toLowerCase());
+    if ( ! this.id) { this.id = uniqueIdentifier('id', '^', this.dataset.structureText); }
+  });
+  
   // assign IDs to content chunks
   identifyChunks($('.table-of-contents').length);
   
@@ -203,6 +219,14 @@ function render() {
   $('.hljs.language-java .hljs-comment').filter(function() {
     return $(this).text().indexOf('/**') === 0;
   }).addClass('handout-javadoc-comment');
+  
+  window.handoutStructure = $('h1, .markdown h2, .with-content h2, mark, [data-structure-tag]').map(function() {
+    return {
+      item: this.dataset.structureTag || this.tagName.toLowerCase(),
+      text: this.dataset.structureText || this.textContent,
+      id: this.id,
+    };
+  }).toArray();
   
   if (window.HANDOUT_DID_RENDER) { window.HANDOUT_DID_RENDER(); }
   if (window.onHandoutDidRender) { window.onHandoutDidRender(); }
@@ -334,7 +358,7 @@ function convertMarkdownTextFields(text) {
 function convertExercises(node, category) {
   var categoryName = category.replace(/-/g, ' ');
   var section = $(node).parents('[data-outline]').slice(-2).first();
-  var container = $(node).attr('id', uniqueIdentifier('id', 'ex-' + section.data('outline')))
+  var container = $(node).attr('id', uniqueIdentifier('id', 'ex-', section.data('outline')))
                          .addClass('exercises panel-group')
                          .prepend('<h4 class="text-danger">' + categoryName + '</h4>');
   
@@ -357,7 +381,7 @@ function convertExercises(node, category) {
 function convertExercise(container, category, heading, content) {
   var title = heading.text();
   var section = container.parents('[data-outline]').first();
-  var exerciseName = uniqueIdentifier('data-outline', title, section);
+  var exerciseName = uniqueIdentifier('data-outline', '', title, section);
   var exerciseId = container.attr('id') + '-' + exerciseName;
   var panel = $('<div class="panel panel-danger">')
               .append($('<div class="panel-collapse exercise-panel">')
@@ -375,7 +399,7 @@ function convertExercise(container, category, heading, content) {
     var group = $(this).addClass('exercise-part');
     
     var label = String.fromCharCode('a'.charCodeAt(0) + idx);
-    group.attr('data-outline', uniqueIdentifier('data-outline', label, body));
+    group.attr('data-outline', uniqueIdentifier('data-outline', '', label, body));
     
     $('.checkbox, .radio, .dropdown, .textfield', this).addClass('exercise-choice')
                                                        .append($('<span class="exercise-answer">').hide());
@@ -417,6 +441,7 @@ function convertExercise(container, category, heading, content) {
   
   // header
   var head = $('<div class="panel-heading">')
+             .attr('data-structure-tag', 'exercise')
              .append($('<span class="panel-title">').text(title)).attr({
                'id': '@' + exerciseId,
                'data-target': '#' + exerciseId,
@@ -493,8 +518,8 @@ function identifyChunks(dense) {
   });
 }
 
-function uniqueIdentifier(attr, text, context) {
-  var base = text.toLowerCase().replace(/\s/g, '_').replace(/[^\w-]/g, '').replace(/([_-])\1+/g, '$1');
+function uniqueIdentifier(attr, prefix, text, context) {
+  var base = prefix + text.toLowerCase().replace(/\s/g, '_').replace(/[^\w-]/g, '').replace(/([_-])\1+/g, '$1');
   var val = base;
   var idx = 2;
   while ($('['+attr+'="'+val+'"]', context || document).length) { val = base + '_' + idx++; }
@@ -523,6 +548,7 @@ require('https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', func
   var stages = [
     [ './course-setup.js#render',
       './render/Markdown.Converter.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/pluralize/7.0.0/pluralize.min.js#render',
       'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' ],
     [ './render/Markdown.Extra.js',
       'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js#render' ],

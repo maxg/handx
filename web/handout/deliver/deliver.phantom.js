@@ -81,20 +81,21 @@ page.onResourceError = function(err) {
   console.log('warning: resource error', err.url, err.errorString);
 };
 
-page.onCallback = function(hasExercises) {
+page.onCallback = function() {
   
-  if (json && hasExercises) {
-    // serialize solutions
-    var exercises = page.evaluate(function(kind, handout, part) {
+  if (json) {
+    // serialize metadata, exercise solutions
+    var metadata = page.evaluate(function(kind, handout, part) {
       return handoutExerciseJSON({
         kind: kind,
         handout: handout,
         part: part,
+        structure: window.handoutStructure,
         exercises: window.handoutExercises,
       });
     }, kind, handout, part);
     
-    // remove solutions from the page
+    // remove exercise solutions from the page
     page.evaluate(function(handoutID) {
       $('.exercise-panel').attr('data-ex-remote', HANDOUT_HANDX + 'submit.php')
                           .attr('data-ex-handout', handoutID);
@@ -106,10 +107,10 @@ page.onCallback = function(hasExercises) {
     }, handoutID);
     
     // save solutions
-    fs.write(json, exercises, { mode: 'w', charset: 'UTF-8' });
+    fs.write(json, metadata, { mode: 'w', charset: 'UTF-8' });
   }
   
-  var comment = '<!-- Handout delivered ' + new Date() + ' -->';
+  var comment = '\n<!-- Handout delivered ' + new Date() + ' -->';
   
   // save handout
   fs.write(html, page.content + comment, { mode: 'w', charset: 'UTF-8' });
@@ -120,7 +121,7 @@ page.onCallback = function(hasExercises) {
 page.open('file://' + source, function(status) {
   page.evaluate(function() {
     function callback() {
-      window.callPhantom(window.handoutExercises.length > 0);
+      window.callPhantom();
     }
     if (window.handoutReady) { return callback(); }
     var currentOnHandoutReady = window.onHandoutReady;

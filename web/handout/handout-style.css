@@ -144,7 +144,12 @@ a.jump:hover {
 }
 @keyframes highlightout {
   from { background: #fcf8e3; }
-  to { background: none; }
+}
+mark:target {
+  animation: highlightzoom 1s;
+}
+@keyframes highlightzoom {
+  from { box-shadow: 0 0 0 50vh #fcf8e380; }
 }
 
 @media print {
@@ -227,6 +232,12 @@ tt {
 /* danger alerts are a little too dangerous-looking */
 .alert-danger {
   background: #f7ebeb;
+}
+
+mark {
+  padding: 0;
+  background-color: #fcf8e380;
+  box-shadow: 0 0 0 .2em #fcf8e380;
 }
 
 .highlighted {

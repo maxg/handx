@@ -10,6 +10,7 @@ $HANDOUT_ORIGINS = array('http://example.com', 'https://example.com');
 const OMNIVORE = 'https://omnivore.example.com';
 const COURSE = '6.HANDX';
 const SEMESTER = 'ia00';
+$HANDOUT_TOC_KINDS = array('classes');
 
 // optional: message displayed in status box
 const MOTD = 'Questions about the reading?<br><b>Better luck next time!</b></a>';
