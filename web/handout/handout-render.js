@@ -258,7 +258,9 @@ function convertMarkdown(md, node, intoSpan) {
       return node.outerHTML;
     }
     return save(node.outerHTML.replace(node.innerHTML,
-      convertMarkdown(md, node, [ 'SUB', 'SUP' ].indexOf(node.tagName) >= 0).trim()));
+      convertMarkdown(md, node, [
+        'SPAN', 'EM', 'STRONG', 'STRIKE', 'CODE', 'SUB', 'SUP'
+      ].indexOf(node.tagName) >= 0).trim()));
   });
   var text = children.join('');
   var html = needsConversion ? md.makeHtml((intoSpan ? '# ' : '') + text) : text;
