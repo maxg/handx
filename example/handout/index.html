@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 
 <title>Example Handout</title>
 
@@ -32,22 +33,42 @@ Use `####` if necessary.
 **Bold**, *italic*, and `code` inline styles.
 
 + Bulleted lists
-+ with `+`
++ itemized with `+`
 + or `-`
 + or `*`
 
+Definition
+: a statement of the exact meaning of a word
+
+list
+: a number of connected items or names written or printed consecutively
+
+0. Lists
+   0. within
+      0. lists
+   0. within
+0. lists
+
+⚠️
+You must escape `&lt;` characters.
+Sorry.
+⚠️
+
 ```java
+// code block
 public static void main(String[] args) {
   System.out.println("Syntax-highlighted code");
 }
+// you still need to escape &lt; characters
 ```
-
-You must escape `&lt;` characters.
-Sorry.
 
 <pre>
 Fixed-width block with **inline** *styles*.
 </pre>
+
+| simple tables | A | B | C |
+|---------------|---|---|---|
+| created with `\|`-and-`-` ASCII art | 1 | 2 | 3 |
 
 <table>
 <tr>
@@ -117,6 +138,16 @@ Text fields can also be checked against a regular expression:
 = /regular expression|regexp?/ regex
 
 = `/a +b +c/ a b c`
+
+---
+
+# Exercise 4 {.exercise-expand .exercise-no-iterate}
+
+This exercise starts expanded, and its explanation is always revealed after the first attempt.
+
+[x] Don't check me
+
+> Fooled you!
 
 </div>
 
