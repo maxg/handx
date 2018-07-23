@@ -469,8 +469,13 @@ function convertExercise(container, category, heading, content) {
 }
 
 function identifyChunks(dense) {
-  var jumpable = 'h1, h2, h3, h4, h5, h6, .panel-heading' + (dense ? ', p, pre, ol>li:first-child, ul>li:first-child, table' : '');
+  var jumpable = 'h1, h2, h3, h4, h5, h6, .panel-heading' + (dense ? ', p, pre, ol:not(li ol), ul:not(li ul), dl, table, .exercise-part-heading' : '');
   var exclude = '.exercise-explain *, .faq h3 + div > p:first-child';
+  var nest = {
+    'ol, ul': 'li',
+    'dl': 'dt',
+    'table': 'th, td',
+  };
   var elements = $(jumpable).not(':has(' + jumpable + ')').not(exclude);
   var chunks = {};
   var stopwords = [
@@ -515,8 +520,15 @@ function identifyChunks(dense) {
       });
     }
   })([], chunks);
-  elements.filter('[id]').prepend(function() {
-    return $('<a>').addClass('jump').attr('href', '#' + this.id);
+  elements.filter('[id]').each(function(idx, elt) {
+    var parent = $(elt);
+    $.each(nest, function(outer, inner) {
+      if (parent.is(outer)) {
+        parent = $(inner, parent).first();
+        return false;
+      }
+    });
+    parent.prepend($('<a>').addClass('jump').attr('href', '#' + elt.id));
   });
 }
 
