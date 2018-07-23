@@ -475,8 +475,8 @@ function identifyChunks(dense) {
   var chunks = {};
   var stopwords = [
     'a', 'an', 'and', 'are', 'as', 'at', 'by', 'for', 'from', 'has', 'have', 'how',
-    'in', 'is', 'it', 'it-s', 'of', 'on', 'or', 'that', 'the', 'this', 'to',
-    'was', 'we', 'were', 'we-re', 'what', 'when', 'where', 'who', 'will', 'with',
+    'in', 'is', 'it', 'it-s', 'its', 'let-s', 'of', 'on', 'or', 'that', 'the', 'this', 'to',
+    'was', 'we', 'were', 'we-ll', 'we-re', 'what', 'when', 'where', 'who', 'will', 'with',
   ];
   elements.map(function(idx, elt) {
     var words = $(this).text().toLowerCase().split(/\s+/).map(function(word) {
