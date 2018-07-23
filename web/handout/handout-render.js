@@ -529,7 +529,7 @@ function identifyChunks(dense) {
     var parent = $(elt);
     $.each(nest, function(outer, inner) {
       if (parent.is(outer)) {
-        parent = $(inner, parent).first();
+        parent = $(inner, parent).not(':empty').first();
         return false;
       }
     });
