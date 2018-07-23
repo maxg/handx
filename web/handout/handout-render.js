@@ -365,7 +365,7 @@ function convertExercises(node, category) {
                          .prepend('<h4 class="text-danger">' + categoryName + '</h4>');
   
   $('h1', container).each(function() {
-    convertExercise(container, category, $(this), $(this).nextUntil('hr'));
+    convertExercise(container, category, this);
   });
   
   // remove original exercise titles and dividers
@@ -380,21 +380,26 @@ function convertExercises(node, category) {
   });
 }
 
-function convertExercise(container, category, heading, content) {
+function convertExercise(container, category, node) {
+  var heading = $(node);
   var title = heading.text();
   var section = container.parents('[data-outline]').first();
   var exerciseName = uniqueIdentifier('data-outline', '', title, section);
   var exerciseId = container.attr('id') + '-' + exerciseName;
+  var body = $('<div class="panel-body">');
   var panel = $('<div class="panel panel-danger">')
-              .append($('<div class="panel-collapse exercise-panel">')
-                      .toggleClass('collapse', ! heading.hasClass('exercise-expand'))
+              .append($('<div class="panel-collapse collapse exercise-panel">')
+                      .toggleClass('in', heading.hasClass('exercise-expand'))
                       .attr('id', exerciseId)
                       .attr('data-outline', exerciseName)
                       .attr('data-ex-id', section.data('outline') + '/' + exerciseName)
                       .attr('data-ex-category', category)
                       .attr('data-ex-no-iterate', heading.hasClass('exercise-no-iterate') || null)
-                      .append('<div class="panel-body">'));
-  var body = content.wrapAll(panel).parent();
+                      .append(body));
+  while (node.nextSibling && ! $(node.nextSibling).is('hr')) {
+    body.append(node.nextSibling);
+  }
+  $(heading).after(panel);
   
   // parts
   $('.form-group', body).each(function(idx) {
