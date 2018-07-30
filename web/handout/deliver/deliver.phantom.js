@@ -118,16 +118,4 @@ page.onCallback = function() {
   phantom.exit(0);
 };
 
-page.open('file://' + source, function(status) {
-  page.evaluate(function() {
-    function callback() {
-      window.callPhantom();
-    }
-    if (window.handoutReady) { return callback(); }
-    var currentOnHandoutReady = window.onHandoutReady;
-    window.onHandoutReady = function() {
-      if (currentOnHandoutReady) { currentOnHandoutReady(); }
-      callback();
-    };
-  });
-});
+page.open('file://' + source);

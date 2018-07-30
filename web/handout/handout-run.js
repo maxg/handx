@@ -350,8 +350,14 @@ $(document).ready(function() {
     }
   }
   
-  // ready callback
   window.handoutReady = true;
-  if (window.HANDOUT_READY) { window.HANDOUT_READY(); }
-  if (window.onHandoutReady) { window.onHandoutReady(); }
+  
+  if (window.callPhantom) {
+    // done rendering
+    setTimeout(window.callPhantom, 0);
+  } else {
+    // ready callback
+    if (window.HANDOUT_READY) { window.HANDOUT_READY(); }
+    if (window.onHandoutReady) { window.onHandoutReady(); }
+  }
 });
