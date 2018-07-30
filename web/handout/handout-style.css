@@ -288,7 +288,6 @@ mark {
   .panel.pull-margin,
   .panel.panel-figure.pull-right.pull-margin {
     margin-right: -25%;
-    position: relative;
   }
 }
 
