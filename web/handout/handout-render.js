@@ -12,6 +12,7 @@
 // configuration
 HANDOUT_DELIVER = document.location.search.match(/handout-deliver=([\w-]+)\/([\w-]+)\/([\w-]*)\//);
 HANDOUT_PREVIEW = ! HANDOUT_DELIVER;
+HANDOUT_REVEAL_EXERCISES = document.location.search.match(/reveal-exercises/);
 if (typeof HANDOUT_HANDX === "undefined") { HANDOUT_HANDX = false; }
 
 // load JavaScript by injecting a <script> tag
@@ -369,7 +370,11 @@ function convertExercises(node, category) {
   });
   // transform explanations
   $('blockquote', container).replaceWith(function() {
-    return $('<div class="exercise-explain">').html(this.innerHTML);
+    var explanation = $('<div class="exercise-explain">').html(this.innerHTML);
+    if (HANDOUT_REVEAL_EXERCISES) {
+      explanation.attr('style', 'display: block');
+    }
+    return explanation;
   });
 }
 
@@ -382,7 +387,7 @@ function convertExercise(container, category, node) {
   var body = $('<div class="panel-body">');
   var panel = $('<div class="panel panel-danger">')
               .append($('<div class="panel-collapse collapse exercise-panel">')
-                      .toggleClass('in', heading.hasClass('exercise-expand'))
+                      .toggleClass('in', HANDOUT_REVEAL_EXERCISES || heading.hasClass('exercise-expand'))
                       .attr('id', exerciseId)
                       .attr('data-outline', exerciseName)
                       .attr('data-ex-id', section.data('outline') + '/' + exerciseName)
