@@ -23,10 +23,8 @@ For local development, the handout HTML file includes `handout-render.js` to ren
 `handout-render` then loads `handout-run.js` to handle exercises and interactive elements.
 Exercise answers are checked locally.
 
-For deployment, the handout HTML page is loaded in [PhantomJS] using `deliver/deliver.phantom.js`, pre-rendered, and the resulting HTML file only includes `handout-run`.
+For deployment, the handout HTML page is loaded in Headless Chrome, pre-rendered, and the resulting HTML file only includes `handout-run`.
 Exercise answers are also stripped from the file and checked server-side.
-
-  [PhantomJS]: http://phantomjs.org
 
 ### [`scripts`](scripts)
 

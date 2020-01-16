@@ -352,9 +352,9 @@ $(document).ready(function() {
   
   window.handoutReady = true;
   
-  if (window.callPhantom) {
+  if (window.HANDOUT_DELIVER) {
     // done rendering
-    setTimeout(window.callPhantom, 0);
+    setTimeout(window.handoutDeliveryCallback, 0);
   } else {
     // ready callback
     if (window.HANDOUT_READY) { window.HANDOUT_READY(); }

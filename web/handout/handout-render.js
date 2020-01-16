@@ -10,8 +10,8 @@
  */
 
 // configuration
-HANDOUT_PREVIEW = (document.location.protocol === 'file:') && ( ! window.callPhantom);
-
+HANDOUT_DELIVER = document.location.search.match(/handout-deliver=([\w-]+)\/([\w-]+)\/([\w-]*)\//);
+HANDOUT_PREVIEW = ! HANDOUT_DELIVER;
 if (typeof HANDOUT_HANDX === "undefined") { HANDOUT_HANDX = false; }
 
 // load JavaScript by injecting a <script> tag
@@ -552,6 +552,34 @@ function uniqueText(attr, text, context) {
   var idx = 2;
   while ($('['+attr+'="'+ESC(val)+'"]', context || document).length) { val = base + ' (' + idx++ + ')'; }
   return val;
+}
+
+function handoutDeliveryCallback() {
+  if ( ! HANDOUT_DELIVER) { return; }
+  
+  let [ kind, handout, part ] = HANDOUT_DELIVER.slice(1);
+  let handoutID = (kind + '-' + handout + (part ? '-' + part : '')).replace(/[^\w-]+/g, '-');
+  let metadata = handoutExerciseJSON({
+    kind,
+    handout,
+    part: part || null,
+    structure: window.handoutStructure,
+    exercises: window.handoutExercises,
+  });
+  
+  $('.exercise-panel').attr('data-ex-remote', HANDOUT_HANDX + 'submit.php')
+                      .attr('data-ex-handout', handoutID);
+  $('.exercise-choice').removeAttr('data-ex-expected');
+  $('.exercise-choice').removeAttr('data-ex-regex');
+  $('.exercise-choice *').removeAttr('data-form-value');
+  $('.exercise-answer').addClass('exercise-remote').html('(missing answer)');
+  $('.exercise-explain').addClass('exercise-remote').html('<p>(missing explanation)</p>');
+  
+  let trailer = [
+    `HANDOUT_DELIVERY\t${handoutID} ${metadata}`,
+    `Handout delivered ${new Date}`,
+  ];
+  document.documentElement.appendChild(document.createComment(`\n${trailer.join('\n')}\n`));
 }
 
 //

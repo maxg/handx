@@ -8,7 +8,7 @@
 # TODO www=/mit/6.HANDX/www
 # TODO handx=/mit/6.HANDX/web_scripts/handx
 # TODO address='http://web.mit.edu/6.HANDX/www'
-# TODO export PHANTOMJS=/mit/6.HANDX/bin/phantomjs-2.0
+# TODO export CHROME=/mit/6.HANDX/bin/chrome
 
 set -e
 set -u

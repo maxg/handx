@@ -5,8 +5,7 @@
 #
 
 webmaster= # address for email notifications
-phantomjs="${PHANTOMJS:?Must set PHANTOMJS}"
-deliver=web/handout/deliver/deliver.phantom.js
+chrome="${CHROME:?Must set CHROME}"
 home=home # special home page handout
 
 set -e
@@ -62,8 +61,12 @@ while read -r file; do              # for each file...
     IFS=/ read -r kind handout part <<< "$path/${file%.*html}"
     part="${part%index}"; part="${part%/}"
     [ -f "$deploy/$file" ] && rm "$deploy/$file"
-    "$phantomjs" "$src/$deliver" "$from/$file" "$deploy/$file" "$handx" "$kind" "$handout" "$part" > >(
-      sed -e $'s/error./\e[1;31m&\e[0m/' -e $'s/warning./\e[1;33m&\e[0m/'
+    url="file://$(cd "$from" && pwd)/$file?handout-deliver=$kind/$handout/$part/"
+    "$chrome" --headless --disable-gpu --dump-dom "$url" |
+    awk '{ if (/^HANDOUT_DELIVERY\t/) { print } else { print > "'"$deploy/$file"'" } }' |
+    cut -f2- | (
+      read -r handoutid metadata
+      cat > "$handx/$handoutid.json" <<< "$metadata"
     )
   else
     # just copy the file
