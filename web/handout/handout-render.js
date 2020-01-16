@@ -5,8 +5,6 @@
  *
  * This script runs client-side for previews and server-side for production.
  * Must only perform static transformation of the DOM. Event handlers are the job of handout-run.js.
- *
- * Removes itself from the DOM after execution.
  */
 
 // configuration
@@ -15,38 +13,14 @@ HANDOUT_PREVIEW = ! HANDOUT_DELIVER;
 HANDOUT_REVEAL_EXERCISES = document.location.search.match(/reveal-exercises/);
 if (typeof HANDOUT_HANDX === "undefined") { HANDOUT_HANDX = false; }
 
-// load JavaScript by injecting a <script> tag
-function require(url, callback) {
-  var deferred;
-  if ( ! callback) {
-    // if no callback function, return a Deferred that resolves when the script is loaded
-    deferred = $.Deferred();
-    callback = function() { deferred.resolve(); }
-  }
-  
-  // fix relative URLs
-  url = url.replace('./', require.abspath);
-  
-  var script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.charset = 'utf-8';
-  script.src = url;
-  script.onerror = function(err) { throw err; }
-  script.onload = callback;
-  document.getElementsByTagName('body')[0].appendChild(script);
-  
-  return deferred;
-}
-
-// transform HTML, render Markdown and exercises
-function render() {
-  
+// transform page HTML, render Markdown and exercises
+function renderPage() {
   // encoding
   if ( ! $('head meta[charset]').length) {
     $('head').prepend($('<meta>').attr({ charset: 'utf-8' }));
   }
   // CSS
-  $('head').append($('<link>').attr({ href: require.abspath + 'handout-style.css', rel: 'stylesheet' }));
+  $('head').append($('<link>').attr({ href: HANDOUT_SCRIPTDIR + 'handout-style.css', rel: 'stylesheet' }));
   // page title
   var title = $('head title').text();
   $('main').prepend($('<h1>').addClass('handout-title').text(title));
@@ -68,27 +42,7 @@ function render() {
     $('head').append($('<meta>').attr({ name: 'viewport', content: 'width=device-width, initial-scale=1' }));
   }
   
-  // create Markdown converter
-  var converter = new Markdown.Converter();
-  Markdown.Extra.init(converter, {
-    // note: changing the enabled extensions may break existing pages
-    extensions: [ 'fenced_code_gfm', 'tables', 'def_list', 'attr_list', 'smartypants' ],
-    highlighter: 'highlight',
-    table_class: 'table',
-  });
-  
-  // extend converter to create mark tags
-  converter.hooks.chain('postSpanGamut', function(text) {
-    if (text.indexOf('{') < 0) { return text; }
-    return text.replace(/\{([^{}\n]+)\}(?:\{([^{}\n]+)\})?/g, function(_, html, text) {
-      return '<mark' + (text ? ' data-mark-text="' + text + '"' : '') + '>' + html + '</mark>';
-    });
-  });
-  
-  // extend converter to understand form elements...
-  converter.hooks.chain('postBlockGamut', convertMarkdownChoiceBlocks);
-  converter.hooks.chain('postBlockGamut', convertMarkdownDropdowns);
-  converter.hooks.chain('postBlockGamut', convertMarkdownTextFields);
+  var converter = makeConverter();
   
   if (window.HANDOUT_WILL_RENDER) { window.HANDOUT_WILL_RENDER(converter); }
   if (window.onHandoutWillRender) { window.onHandoutWillRender(converter); }
@@ -224,6 +178,32 @@ function render() {
   
   if (window.HANDOUT_DID_RENDER) { window.HANDOUT_DID_RENDER(); }
   if (window.onHandoutDidRender) { window.onHandoutDidRender(); }
+}
+
+function makeConverter() {
+  // create Markdown converter
+  var converter = new Markdown.Converter();
+  Markdown.Extra.init(converter, {
+    // note: changing the enabled extensions may break existing pages
+    extensions: [ 'fenced_code_gfm', 'tables', 'def_list', 'attr_list', 'smartypants' ],
+    highlighter: 'highlight',
+    table_class: 'table',
+  });
+  
+  // extend converter to create mark tags
+  converter.hooks.chain('postSpanGamut', function(text) {
+    if (text.indexOf('{') < 0) { return text; }
+    return text.replace(/\{([^{}\n]+)\}(?:\{([^{}\n]+)\})?/g, function(_, html, text) {
+      return '<mark' + (text ? ' data-mark-text="' + text + '"' : '') + '>' + html + '</mark>';
+    });
+  });
+  
+  // extend converter to understand form elements...
+  converter.hooks.chain('postBlockGamut', convertMarkdownChoiceBlocks);
+  converter.hooks.chain('postBlockGamut', convertMarkdownDropdowns);
+  converter.hooks.chain('postBlockGamut', convertMarkdownTextFields);
+  
+  return converter;
 }
 
 // recursively convert a node containing Markdown and possibly HTML
@@ -579,36 +559,3 @@ function handoutDeliveryCallback() {
   ];
   document.documentElement.appendChild(document.createComment(`\n${trailer.join('\n')}\n`));
 }
-
-//
-// main
-//
-
-// load jQuery, load other dependencies, and render
-require('https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', function () {
-  
-  // future calls to require can use relative paths
-  require.abspath = $('script[src*=handout-render]').attr('src').match(/.*\//)[0];
-  
-  var stages = [
-    [ './course-setup.js#render',
-      './render/Markdown.Converter.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/pluralize/7.0.0/pluralize.min.js#render',
-      'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js' ],
-    [ './render/Markdown.Extra.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js#render' ],
-  ];
-  (function next() {
-    var scripts = stages.shift();
-    
-    // when all scripts are loaded, render and run
-    if ( ! scripts) {
-      render();
-      $('script[src*=render]').remove();
-      require('./handout-run.js');
-      return;
-    }
-    // otherwise, require all scripts in this stage and recurse
-    $.when.apply($, scripts.map(function(script) { return require(script) })).done(next);
-  })();
-});

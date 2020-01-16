@@ -55,7 +55,7 @@ sed 's/^.\///' |                                # relative dir names
 sed 's/^.\///' |                    # relative file names
 while read -r file; do              # for each file...
   # handouts are HTML files that reference the handout script
-  if [[ "$file" == *.html ]] && fgrep -q handout-render.js "$from/$file"; then
+  if [[ "$file" == *.html ]] && fgrep -q handout-page.js "$from/$file"; then
     # pre-render the handout
     echo "  render $file"
     IFS=/ read -r kind handout part <<< "$path/${file%.*html}"
