@@ -4,15 +4,14 @@
 # Repository Post-Receive Hook
 #
 
-# TODO snapshotdir=/mit/6.HANDX/path/to/repo-snapshot
-
 set -e
 set -u
 
-# meta-hook supplies original script name
-self="$1"
+# TODO snapshot=/mit/6.HANDX/path/to/repo-snapshot
 
+self="$1" # meta-hook supplies original script name
 subdir="${self%scripts/repo-post-receive-hook}"
+# TODO or if multiple hooks: subdir="${self%scripts/*-hooks/*}"
 src="${subdir%/}"
 
 # be helpful to someone debugging this script
@@ -21,26 +20,21 @@ if [ -z "$GIT_DIR" -o -z "$self" ]; then
   exit 1
 fi
 
-master="refs/heads/master"
-
+# only continue with updates to master
+master='refs/heads/master'
 while read -r oldrev newrev branch; do
-  if [ "$branch" == "$master" ]; then
-    break
-  fi
+  if [ "$branch" == "$master" ]; then break; fi
 done
-
-if [ "$branch" != "$master" -o -z "$newrev" ]; then
-  exit 0
-fi
+if [ "$branch" != "$master" -o -z "$newrev" ]; then exit 0; fi
 
 # if this script will update the snapshot...
-#echo Updating snapshot in $snapshotdir
-#GIT_WORK_TREE="$snapshotdir" git checkout -f
+#echo Updating snapshot in $snapshot
+#GIT_WORK_TREE="$snapshot" git checkout -f
 
-# deploy handouts to the web
+# find and deliver updated handouts
 git diff --name-only "$oldrev" "$newrev" |
 perl -lne "/$subdir"'(.*)\/handout\// && print $1' |
 sort | uniq |
 while read -r dir; do
-  "$snapshotdir/$src/scripts/deliver-handouts-athena" "$dir"
+  "$snapshot/$src/scripts/deliver-handouts-athena" "$dir"
 done
