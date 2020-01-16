@@ -378,6 +378,9 @@ iframe.exercises-status {
   color: #31708f;
   border-left-color: #d9edf7;
 }
+.exercise-explain a[href] {
+  text-decoration: underline;
+}
 .exercise-explain:before {
   content: '\e080';
   color: #31708f;
