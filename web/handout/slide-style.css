@@ -363,3 +363,8 @@ body.remark-container.remark-presenter-mode .remark-notes-area {
 @media print {
   .remark-slide-scaler { overflow: visible; }
 }
+
+/* selection highlight */
+::selection {
+  background-color: #ffff0080; /* yellow with 50% alpha */
+}
