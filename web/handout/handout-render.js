@@ -89,13 +89,6 @@ function render() {
   converter.hooks.chain('postBlockGamut', convertMarkdownDropdowns);
   converter.hooks.chain('postBlockGamut', convertMarkdownTextFields);
   
-  // extend converter to understand java:... URLs as links to API docs
-  converter.hooks.chain('postConversion', function(html) {
-    return html.replace(/ href="java:([^"]+)"/g, function(link, clazz) {
-      return ' href="http://docs.oracle.com/javase/8/docs/api/?'+clazz+'.html"';
-    });
-  });
-  
   if (window.HANDOUT_WILL_RENDER) { window.HANDOUT_WILL_RENDER(converter); }
   if (window.onHandoutWillRender) { window.onHandoutWillRender(converter); }
   
