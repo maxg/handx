@@ -73,13 +73,14 @@ function renderPage() {
     return '.' + category;
   }).join(',')).addClass('exercises');
   
+  var headers = [ 'h1', 'h2', 'h3' ];
   // assign IDs to all headers
-  [ 'h1', 'h2', 'h3' ].forEach(function(h) { // higher-level headers get cleaner IDs
+  headers.forEach(function(h, idx) { // higher-level headers get cleaner IDs
     $(h).each(function() {
       if ($(this).closest('.exercises').length) { return; }
       if ( ! this.id) { this.id = uniqueIdentifier('id', '', this.textContent); }
       var div = $('<div>').attr('data-outline', this.id);
-      while (this.nextSibling &&  ! $(this.nextSibling).is(h)) {
+      while (this.nextSibling && ! $(this.nextSibling).is(headers.slice(0, idx+1).join(','))) {
         div.append(this.nextSibling);
       }
       $(this).after(div);
