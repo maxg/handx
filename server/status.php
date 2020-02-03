@@ -24,7 +24,31 @@ if (MAINTENANCE) {
 } else if (defined('LOGIN_UNTIL') && (date('Y-m-d') > LOGIN_UNTIL)) {
   echo '<p>You are not logged in.</p>';
 } else {
-  echo '<p>You are not logged in.</p><p><a class="btn btn-danger btn-block" href="cert/login.php">Log in</a></p><p>to receive credit for reading exercises.</p>';
+  echo '<p>You are not logged in.</p>';
+  if (LOGIN_MODE == 'certificate') {
+    ?>
+    <p><a class="btn btn-danger btn-block" href="cert/login.php">Log in</a></p>
+    <p>to receive credit for reading exercises.</p>
+    <?
+  } else if (LOGIN_MODE == 'shibauth' && defined('SHIBAUTH_FS') && defined('SHIBAUTH_WEB')) {
+    ?>
+    <p><a class="btn btn-danger btn-block" target="handx-login" href="shib-login.php">Log in</a></p>
+    <p>to receive credit for reading exercises.</p>
+    <script>
+      document.querySelector('a[target=handx-login]').addEventListener('click', function(e) {
+        var popup = window.open(this.getAttribute('href'));
+        this.classList.add('disabled');
+        window.addEventListener('message', function() {
+          popup.close();
+          window.location.reload();
+        });
+        e.preventDefault();
+      });
+    </script>
+    <?
+  } else {
+    echo '<p>Exercise submission is not available.</p>';
+  }
 }
 
 ?>

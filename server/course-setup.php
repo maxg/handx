@@ -11,6 +11,10 @@ const OMNIVORE = 'https://omnivore.example.com';
 const COURSE = '6.HANDX';
 const SEMESTER = 'ia00';
 $HANDOUT_TOC_KINDS = array('classes');
+const LOGIN_MODE = 'certificate'; // use 'certificate' or 'shibauth'
+// with shibauth login mode: filesystem and web paths
+// const SHIBAUTH_FS = '.../shibauth';
+// const SHIBAUTH_WEB = '/shibauth';
 
 // optional: message displayed in status box
 const MOTD = 'Questions about the reading?<br><b>Better luck next time!</b></a>';
