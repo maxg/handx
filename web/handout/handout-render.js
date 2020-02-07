@@ -147,8 +147,17 @@ function renderPage() {
     if ( ! this.id) { this.id = uniqueIdentifier('id', '^', this.dataset.structureText); }
   });
   
-  // assign IDs to content chunks
-  identifyChunks($('.table-of-contents').length);
+  // assign IDs to content chunks and create # links
+  makeJumpLinks({
+    jumpable: 'h1, h2, h3, h4, h5, h6, .panel-heading' +
+        ($('.table-of-contents').length ? ', p, pre, ol:not(li ol), ul:not(li ul), dl, table, .exercise-part-heading' : ''),
+    exclude: '.exercise-explain *, .exercise-choice *, .faq h3 + div > p:first-child',
+    nest: {
+      'ol, ul': 'li',
+      'dl': 'dt',
+      'table': 'th, td',
+    },
+  });
   
   // build table of contents
   $('.table-of-contents').each(function() {
@@ -450,70 +459,6 @@ function convertExercise(container, category, node) {
              .append($('<div class="exercise-progress progress"><div class="progress-bar progress-bar-danger progress-bar-striped active"></div></div>'))
              .append($('<div class="exercise-error"></div>'));
   body.append(foot);
-}
-
-function identifyChunks(dense) {
-  var jumpable = 'h1, h2, h3, h4, h5, h6, .panel-heading' + (dense ? ', p, pre, ol:not(li ol), ul:not(li ul), dl, table, .exercise-part-heading' : '');
-  var exclude = '.exercise-explain *, .faq h3 + div > p:first-child';
-  var nest = {
-    'ol, ul': 'li',
-    'dl': 'dt',
-    'table': 'th, td',
-  };
-  var elements = $(jumpable).not(':has(' + jumpable + ')').not(exclude);
-  var chunks = {};
-  var stopwords = [
-    'a', 'an', 'and', 'are', 'as', 'at', 'by', 'for', 'from', 'has', 'have', 'how',
-    'in', 'is', 'it', 'it-s', 'its', 'let-s', 'of', 'on', 'or', 'that', 'the', 'this', 'to',
-    'was', 'we', 'were', 'we-ll', 'we-re', 'what', 'when', 'where', 'who', 'will', 'with',
-  ];
-  elements.map(function(idx, elt) {
-    var words = $(this).text().toLowerCase().split(/\s+/).map(function(word) {
-      return word.replace(/^\W+|\W+$/g, '').replace(/\W+/g, '-');
-    }).filter(function(word) {
-      return word && (stopwords.indexOf(word) < 0);
-    });
-    return { $elt: this, $words: words };
-  }).each(function() {
-    var here = chunks;
-    while (this.$words.length) {
-      var word = this.$words.shift();
-      if ( ! here[word]) {
-        here[word] = this;
-        return;
-      }
-      if (here[word].$elt) {
-        var current = here[word];
-        here[word] = {};
-        if ( ! current.$words.length) { return; }
-        here[word][current.$words.shift()] = current;
-      }
-      here = here[word];
-    }
-  });
-  var size = 3;
-  (function labeler(labels, tree) {
-    if (tree.$elt) {
-      if ( ! tree.$elt.id) {
-        Array.prototype.push.apply(labels, tree.$words.slice(0, (size - (labels.length % size)) % size));
-        tree.$elt.id = '@' + labels.join('_');
-      }
-    } else {
-      Object.keys(tree).forEach(function(key) {
-        labeler(labels.concat(key), tree[key]);
-      });
-    }
-  })([], chunks);
-  elements.filter('[id]').each(function(idx, elt) {
-    var parent = $(elt);
-    $.each(nest, function(outer, inner) {
-      if (parent.is(outer)) {
-        parent = $(inner, parent).not(':empty').first();
-        return false;
-      }
-    });
-    parent.prepend($('<a>').addClass('jump').attr('href', '#' + elt.id));
-  });
 }
 
 function uniqueIdentifier(attr, prefix, text, context) {

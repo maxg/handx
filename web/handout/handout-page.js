@@ -41,6 +41,7 @@ HANDOUT_SCRIPTDIR = document.querySelector('script[src*=handout-page]').getAttri
   require('https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', function () {
     var stages = [
       [ './course-setup.js#render',
+        './jump-links.js#render',
         './handout-render.js',
         './render/Markdown.Converter.js',
         'https://cdnjs.cloudflare.com/ajax/libs/pluralize/7.0.0/pluralize.min.js#render',
