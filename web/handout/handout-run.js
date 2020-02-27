@@ -344,7 +344,9 @@ $(document).ready(function() {
   if (location.hash) {
     var elt = document.getElementById(decodeURIComponent(location.hash.substr(1)));
     if (elt) {
+      $(elt).filter('.exercise-panel.collapse').addClass('in'); // jump to an exercise
       $('.exercise-panel.collapse', elt).addClass('in'); // jump to an exercise
+      $(elt).nextAll('.exercise-panel.collapse').addClass('in'); // jump to header of exercise
       $(elt).parents('.exercise-panel.collapse').addClass('in'); // jump inside an exercise
       elt.scrollIntoView();
     }
