@@ -15,14 +15,14 @@ function createHoverInteraction() {
   var pick = elt.data('pick');
   if (pick) {
     var updateTarget = function() {
-      var filter = pick.replace(/\{index\}/g, $(this).index()+1);
+      var filter = pick.replace(/\{index\}/g, $(this).index(selector)+1);
       target.hide().filter(filter).show();
     }
   } else {
     var attr = elt.data('attr');
     var template = elt.data('template');
     var updateTarget = function() {
-      var value = template.replace(/\{index\}/g, $(this).index());
+      var value = template.replace(/\{index\}/g, $(this).index(selector));
       target.attr(attr, value);
     }
   }
