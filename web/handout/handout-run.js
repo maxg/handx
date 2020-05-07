@@ -321,6 +321,33 @@ function closeVideo() {
   $('.video-player').hide();
 }
 
+// report visible parts of the page after scrolling
+function createHeatmap() {
+  var url = this.getAttribute('data-handx-url') + 'heatmap.php';
+  var id = this.getAttribute('data-handx-id') || undefined;
+  var win = $(window);
+  var elts = document.querySelectorAll('[id]');
+  win.on('scroll.handx', scrolled);
+  function scrolled() {
+    win.off('scroll.handx');
+    setTimeout(function() {
+      heat();
+      win.on('scroll.handx', scrolled);
+    }, 1000 * 2);
+  }
+  function heat() {
+    var visible = Array.prototype.filter.call(elts, function(elt) {
+      var rect = elt.getBoundingClientRect();
+      return rect.y > 0 && rect.y + 20 < window.innerHeight && $(elt).is(':visible');
+    }).map(function(elt) { return elt.id; });
+    $.ajax({
+      url: url, method: 'POST',
+      xhrFields: { withCredentials: true },
+      data: { id: id, visible: JSON.stringify(visible) },
+    });
+  }
+}
+
 //
 // main
 //
@@ -339,6 +366,12 @@ $(document).ready(function() {
   // wire up videos
   $('.video-play').each(createVideo);
   $('.video-close').on('click', closeVideo);
+  
+  // on delivered handouts...
+  if (window.HANDOUT_DELIVER === undefined) {
+    // wire up heatmap
+    // [disabled] $('[data-handx-url]').first().each(createHeatmap);
+  }
   
   // handle fragment identifiers
   if (location.hash) {
