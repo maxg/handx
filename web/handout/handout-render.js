@@ -499,6 +499,8 @@ function handoutDeliveryCallback() {
   $('.exercise-answer').addClass('exercise-remote').html('(missing answer)');
   $('.exercise-explain').addClass('exercise-remote').html('<p>(missing explanation)</p>');
   
+  $('[data-handx-url]').attr('data-handx-id', handoutID);
+  
   let trailer = [
     `HANDOUT_DELIVERY\t${handoutID} ${metadata}`,
     `Handout delivered ${new Date}`,

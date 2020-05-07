@@ -16,7 +16,7 @@ HANDOUT_SCRIPTDIR = document.querySelector('script[src*=handout-page]').getAttri
     if ( ! callback) {
       // if no callback function, return a Deferred that resolves when the script is loaded
       deferred = $.Deferred();
-      callback = function() { deferred.resolve(); }
+      callback = function(event) { deferred.resolve(event); }
     }
     
     // fix relative URLs
@@ -56,7 +56,9 @@ HANDOUT_SCRIPTDIR = document.querySelector('script[src*=handout-page]').getAttri
       if ( ! scripts) {
         renderPage();
         $('script[src*=handout-page], script[src*=render]').remove();
-        require('./handout-run.js');
+        require('./handout-run.js').done(function(event) {
+          event.target.setAttribute('data-handx-url', HANDOUT_HANDX);
+        });
         return;
       }
       // otherwise, require all scripts in this stage and recurse
