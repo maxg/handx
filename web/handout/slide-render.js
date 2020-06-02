@@ -29,6 +29,8 @@ function require(url, callback) {
 // render the page with all dependencies loaded
 function render() {
   
+  if (window.onSlideshowWillRender) { window.onSlideshowWillRender(show); }
+  
   // presentation title, semester subtitle, authors
   $('#source').prepend([
     'class: chapter',
