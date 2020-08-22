@@ -73,7 +73,9 @@ resource "aws_lambda_function" "webhook" {
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime = "nodejs12.x"
   layers = [
+    # https://github.com/lambci/git-lambda-layer
     "arn:aws:lambda:us-east-1:553035198032:layer:git-lambda2:7",
+    # https://github.com/shelfio/chrome-aws-lambda-layer
     "arn:aws:lambda:us-east-1:764866452798:layer:chrome-aws-lambda:21",
   ]
   memory_size = 1024
