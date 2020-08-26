@@ -162,7 +162,7 @@ function needsRender(file: string, cwd: string): boolean {
 let BROWSER: Promise<Browser>|null = null;
 
 async function doRender(file: string, path: string, src: string, out: string) {
-  const [ kind, handout, part ] = `${path}/${file.replace('.html', '')}`.split('/');
+  const [ kind, handout, part ] = `${path}/${file.replace(/(index)?\.s?html/, '')}`.split('/');
   const deliver = `?handout-deliver=${kind}/${handout}/${part || ''}/`;
   if ( ! BROWSER) {
     BROWSER = Chromium.executablePath.then(executablePath => Chromium.puppeteer.launch({
