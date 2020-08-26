@@ -37,7 +37,7 @@ export async function handler(req: APIGatewayProxyEvent): Promise<APIGatewayProx
   }
   
   return { statusCode: 404, body: `unexpected ${event} event` };
-};
+}
 
 function validateSignature(req: APIGatewayProxyEvent): void {
   const signature = req.headers[X_HUB_SIGNATURE];
@@ -57,32 +57,48 @@ async function handlePush(host: string, req: AppPush): Promise<APIGatewayProxyRe
     return { statusCode: 200, body: `ignoring non-default ${req.ref}` };
   }
   
+  const updated = await deliver(host, delivery, req.installation.id, req.repository.clone_url, req.before, req.after);
+  
+  return { statusCode: 200, body: JSON.stringify([ ...updated ]) };
+}
+
+export async function manual(req: any) {
+  const { host, repositoryFullName, installationId, cloneURL, update } = req;
+  const delivery = SITES[repositoryFullName];
+  if ( ! (host && delivery && installationId && update)) {
+    throw new Error(JSON.stringify(req));
+  }
+  await deliver(host, delivery, installationId, cloneURL, 'HEAD', 'HEAD', update);
+}
+
+async function deliver(host: string, delivery: string, installationId: number, cloneURL: string, before: string, after: string, update?: string[]): Promise<Set<string>> {
   const octokit = new Octokit({
     baseUrl: `https://${host}/api/v3`,
     authStrategy: createAppAuth,
     auth: {
       id: process.env.GITHUB_APP_ID,
       privateKey: process.env.GITHUB_PRIVATE_KEY,
-      installationId: req.installation.id,
+      installationId,
     },
   });
   const { token } = await octokit.auth({
     type: 'installation',
-    installationId: req.installation.id,
+    installationId,
   }) as any;
   
-  const rev = req.after.substr(0, 7);
+  const rev = after.substr(0, 7);
   
   const src = `/tmp/in-${rev}`;
   spawnSync('mkdir', [ '-p', src ], { encoding: 'utf8', stdio: 'inherit' });
-  const url = req.repository.clone_url.replace('://', `://x-access-token:${token}@`);
+  const url = cloneURL.replace('://', `://x-access-token:${token}@`);
   // TODO clone to the actual depth
   spawnSync('git', [ 'clone', `--depth`, '10', url, '.' ], { cwd: src, encoding: 'utf8', stdio: 'inherit' });
   
-  const updated = findUpdated(req.before, req.after, src);
+  const updated = findUpdated(before, after, src);
+  update?.forEach(path => updated.add(path));
   
   if (updated.size === 0) {
-    return { statusCode: 200, body: 'no updates' };
+    return new Set<string>();
   }
   
   const out = `/tmp/out-${rev}`;
@@ -127,7 +143,7 @@ async function handlePush(host: string, req: AppPush): Promise<APIGatewayProxyRe
   
   await done;
   
-  return { statusCode: 200, body: JSON.stringify([ ...updated ]) };
+  return updated;
 }
 
 function findUpdated(before: string, after: string, cwd: string): Set<string> {
