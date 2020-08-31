@@ -133,6 +133,7 @@ async function deliver(host: string, delivery: string, installationId: number, c
       'Content-Length': tar.byteLength,
       'X-Handx-Signature': `${ALGORITHM}=${hmac}`,
       'X-Handx-Revision': rev,
+      'X-Handx-Updated': [ ...updated ].join(','),
     },
   });
   const done = new Promise((resolve, reject) => {
