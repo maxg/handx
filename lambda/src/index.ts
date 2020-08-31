@@ -88,7 +88,7 @@ async function deliver(host: string, delivery: string, installationId: number, c
   
   const rev = after.substr(0, 7);
   
-  const src = `/tmp/in-${rev}`;
+  const src = `/tmp/in-${rev}-${+new Date()}`;
   spawnSync('mkdir', [ '-p', src ], { encoding: 'utf8', stdio: 'inherit' });
   const url = cloneURL.replace('://', `://x-access-token:${token}@`);
   // TODO clone to the actual depth
@@ -101,7 +101,7 @@ async function deliver(host: string, delivery: string, installationId: number, c
     return new Set<string>();
   }
   
-  const out = `/tmp/out-${rev}`;
+  const out = `/tmp/out-${rev}-${+new Date()}`;
   spawnSync('mkdir', [ '-p', `${out}/.handx` ], { encoding: 'utf8', stdio: 'inherit' });
   for (const path of updated) {
     const dirs = findDirs(`${src}/${path}/handout`);
