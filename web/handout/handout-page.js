@@ -55,8 +55,12 @@ HANDOUT_SCRIPTDIR = document.querySelector('script[src*=handout-page]').getAttri
       // when all scripts are loaded, render and run
       if ( ! scripts) {
         renderPage();
+        var data = document.querySelector('script[src*=handout-page]').dataset;
         $('script[src*=handout-page], script[src*=render]').remove();
         require('./handout-run.js').done(function(event) {
+          Object.entries(data).forEach(function(kv) {
+            event.target.dataset[kv[0]] = kv[1];
+          });
           event.target.setAttribute('data-handx-url', HANDOUT_HANDX);
         });
         return;

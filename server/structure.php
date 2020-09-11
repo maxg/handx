@@ -16,7 +16,7 @@ function parse($json) {
 
 function incl($config) {
   global $HANDOUT_TOC_KINDS;
-  return in_array($config->kind, $HANDOUT_TOC_KINDS);
+  return in_array($config->kind, $HANDOUT_TOC_KINDS) && ! property_exists($config, 'noindex');
 }
 
 function entry($config) {
@@ -29,5 +29,5 @@ function entry($config) {
 header('Content-Type: application/json');
 $configs = array_map(function($name) { return substr($name, 0, -5); }, glob('data/*.json'));
 natsort($configs);
-print json_encode(array_map(entry, array_filter(array_map(parse, array_values($configs)), incl)));
+print json_encode(array_map(entry, array_values(array_filter(array_map(parse, array_values($configs)), incl))));
 ?>

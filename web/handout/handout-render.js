@@ -489,6 +489,7 @@ function handoutDeliveryCallback() {
     part: part || null,
     structure: window.handoutStructure,
     exercises: window.handoutExercises,
+    noindex: document.querySelector('script[data-handx-noindex]') ? true : undefined,
   });
   
   $('.exercise-panel').attr('data-ex-remote', HANDOUT_HANDX + 'submit.php')
