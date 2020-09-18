@@ -138,7 +138,7 @@ function value(choice) {
     return $('select option:selected', choice.node).text();
   }
   if (choice.node.is('.textfield')) {
-    return $('input', choice.node).val().replace(/\s+/g, ' ').trim();
+    return $('input, textarea', choice.node).val().replace(/\s+/g, ' ').trim();
   }
   return undefined;
 }

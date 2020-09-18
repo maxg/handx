@@ -418,7 +418,7 @@ function convertExercise(container, category, node) {
     
     $('.textfield', this).each(function() {
       var choice = $(this);
-      var input = $('input', this);
+      var input = $('input, textarea', this);
       var answerSpec = decodeURIComponent(input.data('form-value'));
 
       // check if the answer starts with a regex, and if so use it
