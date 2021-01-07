@@ -67,6 +67,10 @@ function renderPage() {
   $('footer:contains("\u00a9")').addClass('col-sm-2 footer-margin').html($('<div>').html(HANDOUT_AUTHORS));
   // department footer
   $('body').append($('<footer>').text(HANDOUT_DEPARTMENT));
+  // archived footer
+  if (window.HANDOUT_ARCHIVED) {
+    $('body').append($('<footer>').addClass('footer-archived').html(HANDOUT_ARCHIVED));
+  }
   
   // identify exercises
   $(HANDOUT_EXERCISES.map(function(category) {

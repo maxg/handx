@@ -28,8 +28,13 @@ header, footer {
   color: #fff;
   padding: 1em 2em;
 }
-header a, header a:focus, header a:hover {
+header a, header a:focus, header a:hover,
+footer.footer-archived a, footer.footer-archived a:focus, footer.footer-archived a:hover {
   color: #fff;
+}
+footer.footer-archived a {
+  text-decoration: underline;
+  text-decoration-color: #fffa;
 }
 header > div {
   float: right;
@@ -57,6 +62,23 @@ footer.footer-margin > div {
   font-weight: normal;
   font-size: 85%;
   line-height: 1.33;
+}
+footer.footer-archived {
+  text-align: left;
+  position: fixed;
+  bottom: 0;
+  min-width: 33%;
+  max-width: 67%;
+}
+footer.footer-archived::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1.5em;
+  height: 100%;
+  width: 3em;
+  background-color: inherit;
+  transform: skew(22.5deg);
 }
 
 /* table of contents */

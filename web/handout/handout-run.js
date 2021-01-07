@@ -370,7 +370,7 @@ $(document).ready(function() {
   // on delivered handouts...
   if (window.HANDOUT_DELIVER === undefined) {
     // wire up heatmap
-    // [disabled] $('[data-handx-url]').first().each(createHeatmap);
+    $('[data-handx-url]').not('.footer-archived ~ *').first().each(createHeatmap);
   }
   
   // handle fragment identifiers

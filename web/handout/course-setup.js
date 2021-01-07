@@ -15,6 +15,9 @@ HANDOUT_EXERCISES = [ 'reading-exercises' ];
 // optional: location for videos
 // HANDOUT_VIDEO = 'https://example.com/6.HANDX/video/';
 
+// optional: add archived site footer
+// HANDOUT_ARCHIVED = 'Archived IAP 2000';
+
 // optional: configuration for slides
 // HANDOUT_SLIDE_OPTIONS = { ratio: '16:9' };
 
