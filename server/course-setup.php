@@ -11,6 +11,9 @@ const OMNIVORE = 'https://omnivore.example.com';
 const COURSE = '6.HANDX';
 const SEMESTER = 'ia00';
 $HANDOUT_TOC_KINDS = array('classes');
+// for remote delivery: path and secret
+// $WWW_FS = '/mit/6.HANDX/www/' . SEMESTER;
+// $WWW_SECRET = 'abcd1234';
 const LOGIN_MODE = 'certificate'; // use 'certificate' or 'shibauth'
 // with shibauth login mode: filesystem and web paths
 // const SHIBAUTH_FS = '.../shibauth';
