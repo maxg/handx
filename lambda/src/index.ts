@@ -193,6 +193,7 @@ async function doRender(file: string, path: string, src: string, out: string) {
   const browser = await BROWSER;
   const page = await browser.newPage();
   await page.goto(`file://${src}/${path}/handout/${file}${deliver}`, { waitUntil: 'networkidle0' });
+  await page.waitFor(() => document?.documentElement?.lastChild?.textContent?.includes('HANDOUT_DELIVERY\t'));
   const result = await page.content();
   // TODO programmatic access instead?
   const regex = /^HANDOUT_DELIVERY\t([^ ]+) (.*)\n/m;
