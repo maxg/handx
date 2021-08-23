@@ -123,6 +123,8 @@ async function deliver(host: string, delivery: string, installationId: number, c
     }
   }
   
+  spawnSync('rm', [ '-r', src ], { encoding: 'utf8', stdio: 'inherit' });
+  
   spawnSync('/var/task/bin/tar', [
     'cvf', '.tar', '.handx', ...updated ], { cwd: out, stdio: 'inherit' });
   const tar = readFileSync(`${out}/.tar`);
@@ -137,12 +139,17 @@ async function deliver(host: string, delivery: string, installationId: number, c
     },
   });
   const done = new Promise((resolve, reject) => {
-    deliver.once('response', resolve);
+    deliver.once('response', (res) => {
+      res.on('data', (data) => console.log(data.toString('utf8')));
+      res.on('end', resolve);
+    });
     deliver.once('error', reject);
   });
   deliver.end(tar);
   
   await done;
+  
+  spawnSync('rm', [ '-r', out ], { encoding: 'utf8', stdio: 'inherit' });
   
   return updated;
 }
