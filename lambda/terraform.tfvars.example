@@ -1,9 +1,5 @@
+bucket = "...-terraform" # S3 bucket
+key = "handx-lambda"     # app name
 region = "..."
 access_key = "..."
 secret_key = "..."
-
-github_app_id = "..."
-
-sites = {
-  "6.HANDX/staff-ia00": "https://example.com/handx/ia00/deploy.php",
-}

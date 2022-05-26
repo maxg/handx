@@ -1,0 +1,5 @@
+github_app_id = "..."
+
+sites = {
+  "6.HANDX/staff-ia00": "https://example.com/handx/ia00/deploy.php",
+}

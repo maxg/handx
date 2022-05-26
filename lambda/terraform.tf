@@ -1,3 +1,5 @@
+variable "bucket" {}
+variable "key" {}
 variable "access_key" {}
 variable "secret_key" {}
 variable "region" {}
@@ -6,12 +8,14 @@ variable "github_app_id" {}
 
 variable "sites" {}
 
+# terraform init -backend-config=terraform.tfvars
 terraform {
   required_version = ">= 0.12"
+  backend "s3" {}
 }
 
 locals {
-  app = "handx-lambda"
+  app = var.key
 }
 
 data "archive_file" "lambda_zip" {
