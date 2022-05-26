@@ -55,7 +55,7 @@ resource "aws_api_gateway_integration" "webhook_integration" {
   http_method = aws_api_gateway_method.webhook_post.http_method
   integration_http_method = "POST"
   type = "AWS_PROXY"
-  uri = aws_lambda_function.webhook.invoke_arn
+  uri = aws_lambda_function.functions["webhook"].invoke_arn
 }
 
 resource "aws_api_gateway_deployment" "api" {
@@ -67,8 +67,12 @@ resource "aws_api_gateway_deployment" "api" {
   }
 }
 
-resource "aws_lambda_function" "webhook" {
-  function_name = "${local.app}-webhook"
+resource "aws_lambda_function" "functions" {
+  for_each = {
+    webhook = "handler"
+    manual = "manual"
+  }
+  function_name = "${local.app}-${each.key}"
   filename = data.archive_file.lambda_zip.output_path
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime = "nodejs12.x"
@@ -79,7 +83,7 @@ resource "aws_lambda_function" "webhook" {
     "arn:aws:lambda:us-east-1:764866452798:layer:chrome-aws-lambda:21",
   ]
   memory_size = 1024
-  handler = "index.handler"
+  handler = "index.${each.value}"
   environment {
     variables = {
       GITHUB_APP_ID = var.github_app_id
@@ -98,7 +102,7 @@ resource "aws_lambda_function" "webhook" {
 
 resource "aws_lambda_permission" "invoke_webhook" {
   action = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.webhook.function_name
+  function_name = aws_lambda_function.functions["webhook"].function_name
   principal = "apigateway.amazonaws.com"
   source_arn = "${aws_api_gateway_rest_api.api.execution_arn}/*/${aws_api_gateway_method.webhook_post.http_method}${aws_api_gateway_resource.webhook.path}"
 }
@@ -132,7 +136,7 @@ resource "aws_iam_role_policy" "lambda" {
 }
 
 resource "aws_cloudwatch_log_group" "logs" {
-  name = "/aws/lambda/${aws_lambda_function.webhook.function_name}"
+  name = "/aws/lambda/${aws_lambda_function.functions["webhook"].function_name}"
   retention_in_days = 1
   tags = {
     Terraform = local.app
