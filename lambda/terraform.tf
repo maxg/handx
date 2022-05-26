@@ -90,7 +90,6 @@ resource "aws_lambda_function" "webhook" {
   }
   role = aws_iam_role.lambda.arn
   timeout = 90
-  reserved_concurrent_executions = 1
   depends_on = [aws_iam_role_policy.lambda]
   tags = {
     Terraform = local.app
