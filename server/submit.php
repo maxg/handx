@@ -104,7 +104,7 @@ function score_choice($expect, $student) {
   }
 
   if (property_exists($expect, 'regex')) {
-    return preg_match($expect->regex . 'A', $student->input);
+    return preg_filter($expect->regex . 'A', '', $student->input, 1) === '';
   } else {
     return $expect->expected == $student->input;
   }
