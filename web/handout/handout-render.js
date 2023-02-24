@@ -436,6 +436,15 @@ function convertExercise(container, category, node) {
         choice.attr('data-ex-expected', encodeURIComponent(answerSpec));
       }
     });
+
+    // override answer-checking if we are inside a mark-all-answers-correct element
+    if ($(this).parents('.exercise-all-answers-correct').length > 0) {
+      $('.exercise-choice', this).each(function() {
+        var choice = $(this);
+        choice.removeAttr('data-ex-expected');
+        choice.attr('data-ex-regex', encodeURIComponent('/.*/'));
+      });
+    }
   });
   
   // header
