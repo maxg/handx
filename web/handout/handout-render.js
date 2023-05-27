@@ -189,6 +189,12 @@ function renderPage() {
       id: this.id,
     };
   }).toArray();
+  window.handoutsToIndex = $('[data-handx-index] a').map(function() {
+    const href = $(this).attr('href');
+    const m = href.match(/([\w-]+\/[\w-]+)\/handout\//);
+    if (! m) return undefined;
+    return m[1].replace(/[^\w-]/g, '-');
+  }).toArray();
   
   if (window.HANDOUT_DID_RENDER) { window.HANDOUT_DID_RENDER(); }
   if (window.onHandoutDidRender) { window.onHandoutDidRender(); }
@@ -501,6 +507,7 @@ function handoutDeliveryCallback() {
     handout,
     part: part || null,
     structure: window.handoutStructure,
+    handoutsToIndex: window.handoutsToIndex,
     exercises: window.handoutExercises,
     noindex: document.querySelector('script[data-handx-noindex]') ? true : undefined,
   });

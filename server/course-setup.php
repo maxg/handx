@@ -10,7 +10,7 @@ $HANDOUT_ORIGINS = array('http://example.com', 'https://example.com');
 const OMNIVORE = 'https://omnivore.example.com';
 const COURSE = '6.HANDX';
 const SEMESTER = 'ia00';
-$HANDOUT_TOC_KINDS = array('classes');
+$HANDOUT_TOC_ROOTS = array('home-index');
 // for remote delivery: path and secret
 // $WWW_FS = '/mit/6.HANDX/www/' . SEMESTER;
 // $WWW_SECRET = 'abcd1234';
