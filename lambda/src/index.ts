@@ -1,6 +1,6 @@
 import { spawnSync } from 'child_process';
 import { createHmac }from 'crypto';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { request } from 'https';
 
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
@@ -162,6 +162,10 @@ function findUpdated(before: string, after: string, cwd: string): Set<string> {
 }
 
 function findDirs(cwd: string): string[] {
+  if ( ! existsSync(cwd) ) {
+    console.log(cwd, 'does not exist in git clone, skipping');
+    return [];
+  }
   const { stdout, error } = spawnSync('/var/task/bin/find', [
     '-L', '.', '-mindepth', '1', '-type', 'd' ], { cwd, encoding: 'utf8' });
   if (error) { throw error; }
@@ -169,6 +173,10 @@ function findDirs(cwd: string): string[] {
 }
 
 function findFiles(cwd: string): string[] {
+  if ( ! existsSync(cwd) ) {
+    console.log(cwd, 'does not exist in git clone, skipping');
+    return [];
+  }
   const { stdout, error } = spawnSync('/var/task/bin/find', [
     '-L', '.', '-type', 'f' ], { cwd, encoding: 'utf8' });
   if (error) { throw error; }

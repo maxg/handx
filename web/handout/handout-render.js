@@ -189,6 +189,12 @@ function renderPage() {
       id: this.id,
     };
   }).toArray();
+  window.handoutsToIndex = $('[data-handx-index] a').map(function() {
+    const href = $(this).attr('href');
+    const m = href.match(/([\w-]+\/[\w-]+)\/handout\//);
+    if (! m) return undefined;
+    return m[1].replace(/[^\w-]/g, '-');
+  }).toArray();
   
   if (window.HANDOUT_DID_RENDER) { window.HANDOUT_DID_RENDER(); }
   if (window.onHandoutDidRender) { window.onHandoutDidRender(); }
@@ -436,6 +442,15 @@ function convertExercise(container, category, node) {
         choice.attr('data-ex-expected', encodeURIComponent(answerSpec));
       }
     });
+
+    // override answer-checking if we are inside a mark-all-answers-correct element
+    if ($(this).parents('.exercise-all-answers-correct').length > 0) {
+      $('.exercise-choice', this).each(function() {
+        var choice = $(this);
+        choice.removeAttr('data-ex-expected');
+        choice.attr('data-ex-regex', encodeURIComponent('/.*/'));
+      });
+    }
   });
   
   // header
@@ -492,6 +507,7 @@ function handoutDeliveryCallback() {
     handout,
     part: part || null,
     structure: window.handoutStructure,
+    handoutsToIndex: window.handoutsToIndex,
     exercises: window.handoutExercises,
     noindex: document.querySelector('script[data-handx-noindex]') ? true : undefined,
   });
