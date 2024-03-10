@@ -41,7 +41,7 @@ It delivers HTML files to one directory, for display on the web, and JSON files 
 
 Scripts for pre-rendering handouts with AWS Lambda.
 
-### [`server`](server)
+### [`php`](php)
 
 Server-side exercise checking for use with [scripts.mit.edu] and [Omnivore].
 
