@@ -1,0 +1,13 @@
+html
+  head
+    title handx login
+    style.
+      @import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css);
+      .panel, .panel-body > :last-child { margin-bottom: 0; }
+    style!= site_style
+  body: .panel.panel-default: .panel-body.text-center
+    script.
+      const channel = new BroadcastChannel('handx-login');
+      channel.postMessage('done');
+      window.close();
+    p Logged in as #{username}, please close this tab.

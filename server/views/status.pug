@@ -1,0 +1,29 @@
+html
+  head
+    title handx status
+    style.
+      @import url(https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css);
+      .panel, .panel-body > :last-child { margin-bottom: 0; }
+    style!= site_style
+  body: .panel.panel-danger: .panel-body.text-center
+    if setup.maintenance
+      p Exercise submission is #[strong down for maintenance]. #[br] Sorry about that!
+    else if username
+      p Logged in: #[code= username]
+      != site_motd
+    else if setup.login_until && new Date().toISOString() > setup.login_until
+      p You are not logged in.
+    else
+      p You are not logged in.
+      p: a.btn.btn-danger.btn-block(target='handx-login' href='login') Log in
+      script.
+        document.querySelector('a[target=handx-login]').addEventListener('click', function(e) {
+          const channel = new BroadcastChannel('handx-login');
+          channel.addEventListener('message', function() {
+            window.location.reload();
+          });
+          window.open(this.getAttribute('href'));
+          this.classList.add('disabled');
+          e.preventDefault();
+        });
+      p to receive credit for reading exercises.

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+revision=$1
+
+if [[ "$revision" == "--working" ]]; then
+  revision=`git rev-parse --quiet --short HEAD || echo 0000000`-wip
+  echo "Build working copy $revision"
+  git status --short
+  # Only pack files that are tracked by Git
+  tar="tar c -T <(git ls-files)"
+
+elif git rev-parse --quiet --verify $revision > /dev/null; then
+  revision=`git rev-parse --short $revision`
+  echo "Build revision $revision"
+  tar="git archive $revision"
+
+else
+  echo "First argument must be a revision or --working"
+  exit 1
+fi
+
+name=`git config --get remote.origin.url https://github.com/ || basename $PWD`
+name=${name/https:??github.com/ghcr.io}
+name=${name%.git}
+
+for dir in delivery server
+do
+  cmd="cd $dir ; $tar | docker build --platform amd64 --tag $name-$dir:$revision -"
+  echo "$cmd"
+
+  ( eval "$cmd" )
+done
